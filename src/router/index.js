@@ -224,7 +224,7 @@ const routes = [
   */
   {
     path: "/",
-    component: LayoutLanding,
+    component: AuthSignIn3,
     children: [
       {
         path: "",
