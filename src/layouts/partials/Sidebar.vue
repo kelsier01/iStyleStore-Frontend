@@ -87,13 +87,10 @@ onMounted(() => {
         <slot name="header">
           <!-- Logo -->
           <RouterLink :to="{ name: 'landing' }" class="fw-semibold text-dual">
-            <span class="smini-visible">
-              <i class="fa fa-circle-notch text-primary"></i>
-            </span>
-            <span class="smini-hide fs-5 tracking-wider">
-              OneUI
-              <span class="fw-normal">Vue</span>
-            </span>
+            <img
+              src="/public/assets/media/istyle/logoAzul.png"
+              width="100"
+            />
           </RouterLink>
           <!-- END Logo -->
         </slot>

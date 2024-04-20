@@ -105,12 +105,15 @@
     background-color: $body-bg-light;
   }
 
+
+
+  // Aca es donde cambie el color de la barra a blanco
   &.sidebar-dark #sidebar {
     color: $body-color-light;
     background-color: $sidebar-dark-bg;
 
     > .content-header {
-      background-color: lighten($sidebar-dark-bg, 2%);
+      background-color: white;
     }
   }
 

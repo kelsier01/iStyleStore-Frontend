@@ -1,11 +1,13 @@
 <script setup>
 import { reactive, computed } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter, RouterLink } from "vue-router";
 import { useTemplateStore } from "@/stores/template";
 
 // Vuelidate, for more info and examples you can check out https://github.com/vuelidate/vuelidate
 import useVuelidate from "@vuelidate/core";
 import { required, minLength } from "@vuelidate/validators";
+
+
 
 // Main store and Router
 const store = useTemplateStore();
@@ -130,10 +132,15 @@ async function onSubmit() {
                     class="d-flex justify-content-center align-items-center mb-4"
                   >
                     <div>
-                      <button type="submit" class="btn btn-info">
+                      <!-- Boton Login -->
+                      <!-- <button type="submit" class="btn btn-info">
                         <i class="fa fa-fw fa-sign-in-alt me-1 "></i>
                         Login
-                      </button>
+                      </button> -->
+                      <RouterLink to="/backend/dashboard" class="btn btn-info">
+                        <i class="fa fa-fw fa-sign-in-alt me-1 "></i>
+                        Login
+                      </RouterLink>
                     </div>
                   </div>
                 </form>
