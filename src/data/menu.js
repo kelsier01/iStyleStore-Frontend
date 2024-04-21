@@ -9,24 +9,24 @@ export default {
     {
       name: "Inicio",
       to: "backend-dashboard",
-      icon: "si si-speedometer",
+      icon: "fas fa-home",
     },
     {
-      name: "Page Packs",
-      icon: "si si-layers",
+      name: "Orden De Trabajo",
+      icon: "fas fa-file",
       subActivePaths: "/backend/pages-packs",
       sub: [
         {
-          name: "Dashboard",
-          to: "backend-boxed-dashboard",
+          name: "Ingreso de Orden",
+          to: "ordentrabajo",
         },
         {
-          name: "Search",
-          to: "backend-boxed-search",
+          name: "Revisar Orden",
+          to: "revision",
         },
         {
-          name: "Simple 1",
-          to: "backend-boxed-simple1",
+          name: "Listar Ordenes",
+          to: "listarorden",
         },
       ],
     },

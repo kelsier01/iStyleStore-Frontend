@@ -12,6 +12,12 @@ import LayoutBackendMegaMenu from "@/layouts/variations/BackendMegaMenu.vue";
 // Frontend: Landing
 const Landing = () => import("@/views/landing/LandingView.vue");
 
+
+// ISTYLESTORE VIEWS
+const OrdenTrabajo = () => import("@/views/IstyleViews/OrdenTrabajo/IngresoOrdenView.vue");
+const Revision = () => import("@/views/IstyleViews/OrdenTrabajo/RevisarOrdenView.vue");
+const ListarOrden = () => import("@/views/IstyleViews/OrdenTrabajo/ListarOrdenesView.vue");
+
 // Backend Boxed: Dashboard
 const BackendBoxedDashboard = () =>
   import("@/views/backend-boxed/DashboardView.vue");
@@ -233,6 +239,40 @@ const routes = [
       },
     ],
   },
+  {
+    path: "/ordentrabajo",
+    component: LayoutBackend,
+    children: [
+      {
+        path: "",
+        name: "ordentrabajo",
+        component: OrdenTrabajo,
+      },
+    ],
+  },
+  {
+    path: "/revision",
+    component: LayoutBackend,
+    children: [
+      {
+        path: "",
+        name: "revision",
+        component: Revision,
+      },
+    ],
+  },
+  {
+    path: "/listarorden",
+    component: LayoutBackend,
+    children: [
+      {
+        path: "",
+        name: "listarorden",
+        component: ListarOrden,
+      },
+    ],
+  },
+
 
   /*
   |
