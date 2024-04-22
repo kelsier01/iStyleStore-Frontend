@@ -14,9 +14,24 @@ const Landing = () => import("@/views/landing/LandingView.vue");
 
 
 // ISTYLESTORE VIEWS
+
+//1. Orden de Trabajo
 const OrdenTrabajo = () => import("@/views/IstyleViews/OrdenTrabajo/IngresoOrdenView.vue");
 const Revision = () => import("@/views/IstyleViews/OrdenTrabajo/RevisarOrdenView.vue");
 const ListarOrden = () => import("@/views/IstyleViews/OrdenTrabajo/ListarOrdenesView.vue");
+
+//2. Mantenedores
+const AgregarBodegas = () => import("@/views/IstyleViews/Mantenedores/AgregarBodegasView.vue");
+const AgregarCategorias = () => import("@/views/IstyleViews/Mantenedores/AgregarCategoriasView.vue");
+const AgregarProductos = () => import("@/views/IstyleViews/Mantenedores/AgregarProductosView.vue");
+const AgregarMarcas = () => import("@/views/IstyleViews/Mantenedores/AgregarMarcasView.vue");
+const AgregarModelos = () => import("@/views/IstyleViews/Mantenedores/AgregarModelosView.vue");
+const AgregarServicio = () => import("@/views/IstyleViews/Mantenedores/AgregarServicioView.vue");
+const AgregarEquipos = () => import("@/views/IstyleViews/Mantenedores/AgregarEquiposView.vue");
+const agregarPreguntas = () => import("@/views/IstyleViews/Mantenedores/AgregarPreguntasView.vue");
+
+
+
 
 // Backend Boxed: Dashboard
 const BackendBoxedDashboard = () =>
@@ -221,13 +236,8 @@ const Error503 = () => import("@/views/errors/503View.vue");
 
 // Set all routes
 const routes = [
-  /*
-  |
-  |--------------------------------------------------------------------------
-  | Landing Routes
-  |--------------------------------------------------------------------------
-  |
-  */
+
+  //LOGIN......................
   {
     path: "/",
     component: AuthSignIn3,
@@ -272,6 +282,100 @@ const routes = [
       },
     ],
   },
+
+
+  //MANTENEDORES......................
+
+  {
+    path: "/agregarbodegas",
+    component: LayoutBackend,
+    children: [
+      {
+        path: "",
+        name: "agregarbodegas",
+        component: AgregarBodegas,
+      },
+    ],
+  },
+  {
+    path: "/agregarmarcas",
+    component: LayoutBackend,
+    children: [
+      {
+        path: "",
+        name: "agregarmarcas",
+        component: AgregarMarcas,
+      },
+    ],
+  },
+  {
+    path: "/agregarpreguntas",
+    component: LayoutBackend,
+    children: [
+      {
+        path: "",
+        name: "agregarpreguntas",
+        component: agregarPreguntas,
+      },
+    ],
+  },
+  {
+    path: "/listarcategorias",
+    component: LayoutBackend,
+    children: [
+      {
+        path: "",
+        name: "listarcategorias",
+        component: AgregarCategorias,
+      },
+    ],
+  },
+  {
+    path: "/listarequipos",
+    component: LayoutBackend,
+    children: [
+      {
+        path: "",
+        name: "listarequipos",
+        component: AgregarEquipos,
+      },
+    ],
+  },
+  {
+    path: "/listarmodelo",
+    component: LayoutBackend,
+    children: [
+      {
+        path: "",
+        name: "listarmodelo",
+        component: AgregarModelos,
+      },
+    ],
+  },
+  {
+    path: "/listarservicio",
+    component: LayoutBackend,
+    children: [
+      {
+        path: "",
+        name: "listarservicio",
+        component: AgregarServicio,
+      },
+    ],
+  },
+  {
+    path: "/listarproductos",
+    component: LayoutBackend,
+    children: [
+      {
+        path: "",
+        name: "listarproductos",
+        component: AgregarProductos,
+      },
+    ],
+  },
+
+
 
 
   /*

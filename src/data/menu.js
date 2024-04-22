@@ -14,7 +14,6 @@ export default {
     {
       name: "Orden De Trabajo",
       icon: "fas fa-file",
-      subActivePaths: "/backend/pages-packs",
       sub: [
         {
           name: "Ingreso de Orden",
@@ -27,6 +26,44 @@ export default {
         {
           name: "Listar Ordenes",
           to: "listarorden",
+        },
+      ],
+    },
+    {
+      name: "Mantenedores",
+      icon: "fa-solid fa-box",
+      sub: [
+        {
+          name: "Agregar Bodegas",
+          to: "agregarbodegas",
+        },
+        {
+          name: "Agregar Marcas",
+          to: "agregarmarcas",
+        },
+        {
+          name: "Agregar Preguntas",
+          to: "agregarpreguntas",
+        },
+        {
+          name: "Agregar Categorias",
+          to: "listarcategorias",
+        },
+        {
+          name: "Agregar Equipos",
+          to: "listarequipos",
+        },
+        {
+          name: "Agregar Modelo",
+          to: "listarmodelo",
+        },
+        {
+          name: "Agregar Servicio",
+          to: "listarservicio",
+        },
+        {
+          name: "Agregar Productos",
+          to: "listarproductos",
         },
       ],
     },
