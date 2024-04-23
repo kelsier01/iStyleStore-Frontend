@@ -1,34 +1,18 @@
-<script setup></script>
+<script setup>
+import FormRecepcionEquipos from "./Components/Forms/FormRecepcionEquipos.vue";
+import FormEstadoDelEquipo from "./Components/Forms/FormEstadoDelEquipo.vue";
+
+</script>
 
 <template>
-  <!-- Hero -->
-  <BasePageHeading
-    title="Blank with Block"
-    subtitle="That feeling of delight when you start your awesome new project!"
-  >
-    <template #extra>
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb breadcrumb-alt">
-          <li class="breadcrumb-item">
-            <a class="link-fx" href="javascript:void(0)">Generic</a>
-          </li>
-          <li class="breadcrumb-item" aria-current="page">Blank with Block</li>
-        </ol>
-      </nav>
-    </template>
-  </BasePageHeading>
-  <!-- END Hero -->
 
   <!-- Page Content -->
   <div class="content">
-    <BaseBlock title="Block Title">
-      <template #options>
-        <button type="button" class="btn-block-option">
-          <i class="si si-settings"></i>
-        </button>
-      </template>
-
-      <p>Your content..</p>
+    <BaseBlock title="Protocolo de recepción de equipos">
+      <FormRecepcionEquipos />
+    </BaseBlock>
+    <BaseBlock title="Estado del equipo">
+      <FormEstadoDelEquipo />
     </BaseBlock>
   </div>
   <!-- END Page Content -->
