@@ -1,7 +1,6 @@
 <script setup>
 
-import ListarOrdenesTable from '../Components/ListarOrdenesTable.vue';
-
+import ListarOrdenesTable from './Components/Tables/ListarOrdenesTable.vue'
 </script>
 
 <template>

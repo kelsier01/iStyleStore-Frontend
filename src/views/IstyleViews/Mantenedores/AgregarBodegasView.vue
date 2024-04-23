@@ -1,5 +1,5 @@
 <script setup>
-import MantenedorBodegaTable from '../Components/MantenedorBodegaTable.vue';
+import MantenedorBodegaTable from './Tables/MantenedorBodegaTable.vue';
 
 </script>
 

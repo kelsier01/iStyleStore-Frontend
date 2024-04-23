@@ -25,7 +25,7 @@ const AgregarBodegas = () => import("@/views/IstyleViews/Mantenedores/AgregarBod
 const AgregarCategorias = () => import("@/views/IstyleViews/Mantenedores/AgregarCategoriasView.vue");
 const AgregarProductos = () => import("@/views/IstyleViews/Mantenedores/AgregarProductosView.vue");
 const AgregarMarcas = () => import("@/views/IstyleViews/Mantenedores/AgregarMarcasView.vue");
-const AgregarModelos = () => import("@/views/IstyleViews/Mantenedores/AgregarModelosView.vue");
+const AgregarModelos = () => import("@/views/IstyleViews/Mantenedores/AgregarModeloView.vue");
 const AgregarServicio = () => import("@/views/IstyleViews/Mantenedores/AgregarServicioView.vue");
 const AgregarEquipos = () => import("@/views/IstyleViews/Mantenedores/AgregarEquiposView.vue");
 const agregarPreguntas = () => import("@/views/IstyleViews/Mantenedores/AgregarPreguntasView.vue");

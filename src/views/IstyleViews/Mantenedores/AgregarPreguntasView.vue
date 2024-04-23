@@ -1,12 +1,13 @@
-<script setup></script>
+<script setup>
+import MantenedorPreguntasTable from './Tables/MantenedorPreguntasTable.vue';
+</script>
 
 <template>
  
   <!-- Page Content -->
   <div class="content">
     <BaseBlock title="Mantenedor Preguntas">
-
-      <p>Your content..</p>
+      <MantenedorPreguntasTable />
     </BaseBlock>
   </div>
   <!-- END Page Content -->

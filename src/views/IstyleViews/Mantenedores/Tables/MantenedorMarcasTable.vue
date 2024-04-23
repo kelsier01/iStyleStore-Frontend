@@ -13,12 +13,12 @@ import {
 
 // Get example data
 import users from "@/data/usersDataset.json";
-import ModalMantenedorBodegas from '../Components/ModalMantenedorBodegas.vue';
+import ModalMantenedorBodegas from '../Modals/ModalMantenedorMarcas.vue';
 // Helper variables
 const cols = reactive([
   {
-    name: "Nombre Bodega",
-    field: "nombreBodega",
+    name: "Descripcion Marca",
+    field: "descripcionMarca",
     sort: "",
   },
   {

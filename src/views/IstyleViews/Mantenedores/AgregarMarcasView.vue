@@ -1,12 +1,13 @@
-<script setup></script>
+<script setup>
+import MantenedorMarcasTable from './Tables/MantenedorMarcasTable.vue';
+</script>
 
 <template>
  
   <!-- Page Content -->
   <div class="content">
     <BaseBlock title="Marcas">
-
-      <p>Your content..</p>
+      <MantenedorMarcasTable />
     </BaseBlock>
   </div>
   <!-- END Page Content -->

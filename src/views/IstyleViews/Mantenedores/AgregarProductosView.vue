@@ -1,12 +1,13 @@
-<script setup></script>
+<script setup>
+import MantenedorProductosTable from './Tables/MantenedorProductosTable.vue';
+</script>
 
 <template>
  
   <!-- Page Content -->
   <div class="content">
     <BaseBlock title="Productos">
-
-      <p>Your content..</p>
+      <MantenedorProductosTable />
     </BaseBlock>
   </div>
   <!-- END Page Content -->
