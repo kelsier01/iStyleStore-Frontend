@@ -10,29 +10,42 @@ import LayoutBackendBoxed from "@/layouts/variations/BackendBoxed.vue";
 import LayoutBackendMegaMenu from "@/layouts/variations/BackendMegaMenu.vue";
 
 // Frontend: Landing
-const Landing = () => import("@/views/landing/LandingView.vue");
-
-
-// ISTYLESTORE VIEWS
+const Landing = () => import("@/views/landing/LandingView.vue"); // ISTYLESTORE VIEWS
 
 //1. Orden de Trabajo
-const OrdenTrabajo = () => import("@/views/IstyleViews/OrdenTrabajo/IngresoOrdenView.vue");
-const Revision = () => import("@/views/IstyleViews/OrdenTrabajo/RevisarOrdenView.vue");
-const ListarOrden = () => import("@/views/IstyleViews/OrdenTrabajo/ListarOrdenesView.vue");
-const OrdenPdf = () => import("@/views/IstyleViews/OrdenTrabajo/OrdenPdfView.vue");
-const OtPdfProtocolo = () => import("@/views/IstyleViews/OrdenTrabajo/OtPdfView.vue");
+const OrdenTrabajo = () =>
+  import("@/views/IstyleViews/OrdenTrabajo/IngresoOrdenView.vue");
+const Revision = () =>
+  import("@/views/IstyleViews/OrdenTrabajo/RevisarOrdenView.vue");
+const ListarOrden = () =>
+  import("@/views/IstyleViews/OrdenTrabajo/ListarOrdenesView.vue");
+const OrdenPdf = () =>
+  import("@/views/IstyleViews/OrdenTrabajo/OrdenPdfView.vue");
+const OtPdfProtocolo = () =>
+  import("@/views/IstyleViews/OrdenTrabajo/OtPdfView.vue");
 //2. Mantenedores
-const AgregarBodegas = () => import("@/views/IstyleViews/Mantenedores/AgregarBodegasView.vue");
-const AgregarCategorias = () => import("@/views/IstyleViews/Mantenedores/AgregarCategoriasView.vue");
-const AgregarProductos = () => import("@/views/IstyleViews/Mantenedores/AgregarProductosView.vue");
-const AgregarMarcas = () => import("@/views/IstyleViews/Mantenedores/AgregarMarcasView.vue");
-const AgregarModelos = () => import("@/views/IstyleViews/Mantenedores/AgregarModeloView.vue");
-const AgregarServicio = () => import("@/views/IstyleViews/Mantenedores/AgregarServicioView.vue");
-const AgregarEquipos = () => import("@/views/IstyleViews/Mantenedores/AgregarEquiposView.vue");
-const agregarPreguntas = () => import("@/views/IstyleViews/Mantenedores/AgregarPreguntasView.vue");
+const AgregarBodegas = () =>
+  import("@/views/IstyleViews/Mantenedores/AgregarBodegasView.vue");
+const AgregarCategorias = () =>
+  import("@/views/IstyleViews/Mantenedores/AgregarCategoriasView.vue");
+const AgregarProductos = () =>
+  import("@/views/IstyleViews/Mantenedores/AgregarProductosView.vue");
+const AgregarMarcas = () =>
+  import("@/views/IstyleViews/Mantenedores/AgregarMarcasView.vue");
+const AgregarModelos = () =>
+  import("@/views/IstyleViews/Mantenedores/AgregarModeloView.vue");
+const AgregarServicio = () =>
+  import("@/views/IstyleViews/Mantenedores/AgregarServicioView.vue");
+const AgregarEquipos = () =>
+  import("@/views/IstyleViews/Mantenedores/AgregarEquiposView.vue");
+const agregarPreguntas = () =>
+  import("@/views/IstyleViews/Mantenedores/AgregarPreguntasView.vue");
 
-
-
+//3. Inventario
+const ListarWeb = () =>
+  import("@/views/IstyleViews/Inventario/ListarProductosWebView.vue");
+const IngresoProduct = () =>
+  import("@/views/IstyleViews/Inventario/IngresarProductView.vue");
 
 // Backend Boxed: Dashboard
 const BackendBoxedDashboard = () =>
@@ -237,7 +250,6 @@ const Error503 = () => import("@/views/errors/503View.vue");
 
 // Set all routes
 const routes = [
-
   //LOGIN......................
   {
     path: "/",
@@ -304,10 +316,7 @@ const routes = [
         component: OtPdfProtocolo,
       },
     ],
-  },
-
-
-  //MANTENEDORES......................
+  }, //MANTENEDORES......................
 
   {
     path: "/agregarbodegas",
@@ -397,9 +406,30 @@ const routes = [
       },
     ],
   },
+  //****Inventario
 
-
-
+  {
+    path: "/ingresoproduct",
+    component: LayoutBackend,
+    children: [
+      {
+        path: "",
+        name: "ingresoproduct",
+        component: IngresoProduct,
+      },
+    ],
+  },
+  {
+    path: "/listarweb",
+    component: LayoutBackend,
+    children: [
+      {
+        path: "",
+        name: "listarweb",
+        component: ListarWeb,
+      },
+    ],
+  },
 
   /*
   |
