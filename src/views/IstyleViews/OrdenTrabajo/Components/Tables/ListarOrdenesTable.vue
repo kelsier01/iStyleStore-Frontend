@@ -1,6 +1,6 @@
 <script setup>
 import { reactive, computed, onMounted } from "vue";
-
+import { RouterLink } from 'vue-router'
 // Vue Dataset, for more info and examples you can check out https://github.com/kouts/vue-dataset/tree/next
 import {
   Dataset,
@@ -217,10 +217,16 @@ th.sort {
                       <td >{{ row.company }}</td>
                       <td >{{ row.birthdate }}</td>
                       <td >{{ row.name }}</td>
-                      <td>{{ row.name }}</td>
                       <td ><i class="fa-solid fa-square-phone"></i></td>
-                      <td >
-                        <i class="fa-solid fa-file-pdf"></i>
+                      <td>
+                        <router-link to='/ordenpdf'>
+                            <i class="fa-solid fa-file-pdf"></i>
+                        </router-link>
+                      </td>
+                      <td>
+                        <router-link to='/ordenprotocolo'>
+                          <i class="fa-solid fa-file-pdf"></i>
+                        </router-link>
                       </td>
                       <td >
                           <i class="fa fa-trash"></i>

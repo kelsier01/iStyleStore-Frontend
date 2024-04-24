@@ -39,6 +39,26 @@
                                 </label>
                             </div>
                         </div>
+                        <div class="card">
+                        <div class="card-content">
+                            <div class="card-body">
+                                <h4 class="card-title">DETALLE DEL SERVICIO</h4>
+                            </div>
+                        </div>
+                        <!----> 
+                        <div class="col-12 mb-4">
+                            <p>SERVICIO : <span><input type="text" name="" class="form-control"></span></p>
+                            <p>PRECIO : $ <span><input type="text" name="" class="form-control"></span></p>
+                            <fieldset>
+                                <div class="input-group">
+                                    <div style="display: flex; justify-content: center; align-items: center;">CANTIDAD :</div>
+                                    <input type="text" placeholder="100" aria-describedby="button-addon2" class="form-control ml-2"> 
+                                    <div id="button-addon2" class="input-group-append"><button type="button" class="btn btn-dark waves-effect waves-light">Agregar</button></div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        </div>
+
                     </div>
                 </div>
             </div>

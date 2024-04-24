@@ -19,7 +19,8 @@ const Landing = () => import("@/views/landing/LandingView.vue");
 const OrdenTrabajo = () => import("@/views/IstyleViews/OrdenTrabajo/IngresoOrdenView.vue");
 const Revision = () => import("@/views/IstyleViews/OrdenTrabajo/RevisarOrdenView.vue");
 const ListarOrden = () => import("@/views/IstyleViews/OrdenTrabajo/ListarOrdenesView.vue");
-
+const OrdenPdf = () => import("@/views/IstyleViews/OrdenTrabajo/OrdenPdfView.vue");
+const OtPdfProtocolo = () => import("@/views/IstyleViews/OrdenTrabajo/OtPdfView.vue");
 //2. Mantenedores
 const AgregarBodegas = () => import("@/views/IstyleViews/Mantenedores/AgregarBodegasView.vue");
 const AgregarCategorias = () => import("@/views/IstyleViews/Mantenedores/AgregarCategoriasView.vue");
@@ -279,6 +280,28 @@ const routes = [
         path: "",
         name: "listarorden",
         component: ListarOrden,
+      },
+    ],
+  },
+  {
+    path: "/ordenpdf",
+    component: LayoutBackend,
+    children: [
+      {
+        path: "",
+        name: "ordenpdf",
+        component: OrdenPdf,
+      },
+    ],
+  },
+  {
+    path: "/ordenprotocolo",
+    component: LayoutBackend,
+    children: [
+      {
+        path: "",
+        name: "ordenprotocolo",
+        component: OtPdfProtocolo,
       },
     ],
   },
