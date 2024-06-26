@@ -95,7 +95,6 @@ const getEquipos = async () =>{
   .then((response)=>{
     if(response){
       equipos.value = response.data.equipos
-      console.log(equipos.value)
       theaders()
     }
 
@@ -109,7 +108,6 @@ const getPreguntas = async () =>{
   .then((response)=>{
     if(response){
       preguntas.value = response.data.preguntas
-      console.log(preguntas.value)
     }
   })
   .catch((error)=>{
@@ -133,20 +131,64 @@ onBeforeMount(()=>{
   getPreguntas();
   getEquipos();
 })
+
+const getIdEquipo_Has_Pregunta = (id_pregunta, id_equipo) => {
+  const registroEncontrado = equipo_has_preguntas.value.find(
+    registro => 
+      registro.id_pregunta === id_pregunta && 
+      registro.id_equipo === id_equipo &&
+      registro.estado === 1 &&
+      registro.habilitado === 0
+  );
+
+  // Si encontramos el registro, retornamos su id
+  // De lo contrario, podríamos retornar null, undefined o un valor indicativo según tu lógica de negocio
+  return registroEncontrado ? registroEncontrado.id : null;
+}
+const getIdEquipo_Has_Pregunta2 = (id_pregunta, id_equipo) => {
+  const registroEncontrado = equipo_has_preguntas.value.find(
+    registro => 
+      registro.id_pregunta === id_pregunta && 
+      registro.id_equipo === id_equipo &&
+      registro.estado === 2 &&
+      registro.habilitado === 0
+  );
+
+  // Si encontramos el registro, retornamos su id
+  // De lo contrario, podríamos retornar null, undefined o un valor indicativo según tu lógica de negocio
+  return registroEncontrado ? registroEncontrado.id : null;
+}
+const getIdEquipo_Has_Pregunta3 = (id_pregunta, id_equipo) => {
+  const registroEncontrado = equipo_has_preguntas.value.find(
+    registro => 
+      registro.id_pregunta === id_pregunta && 
+      registro.id_equipo === id_equipo &&
+      registro.estado === 3 &&
+      registro.habilitado === 0
+  );
+
+  // Si encontramos el registro, retornamos su id
+  // De lo contrario, podríamos retornar null, undefined o un valor indicativo según tu lógica de negocio
+  return registroEncontrado ? registroEncontrado.id : null;
+}
+
+
 const isCheckedState1 = (id_pregunta, id_equipo) => {
      return equipo_has_preguntas.value.some(
       registro => 
       registro.id_pregunta === id_pregunta && 
       registro.id_equipo === id_equipo &&
-      registro.estado === 1
-  );
+      registro.estado === 1 &&
+      registro.habilitado === 0
+    );
 }
 const isCheckedState2 = (id_pregunta, id_equipo) => {
      return equipo_has_preguntas.value.some(
       registro => 
       registro.id_pregunta === id_pregunta && 
       registro.id_equipo === id_equipo &&
-      registro.estado === 2
+      registro.estado === 2 &&
+      registro.habilitado === 0
   );
 }
 const isCheckedState3 = (id_pregunta, id_equipo) => {
@@ -154,7 +196,8 @@ const isCheckedState3 = (id_pregunta, id_equipo) => {
       registro => 
       registro.id_pregunta === id_pregunta && 
       registro.id_equipo === id_equipo &&
-      registro.estado === 3
+      registro.estado === 3 &&
+      registro.habilitado === 0
   );
 }
 
@@ -187,8 +230,30 @@ const estado_equipo_has_pregunta = (idPregunta, idEquipo, event) =>{
       }
     })
   }else{
+    const equipo_has_pregunta = {id_equipo: idEquipo, id_pregunta: idPregunta, estado: equipo_estado.value, habilitado: 1}
+    Swal.fire({
+      showCancelButton: true,
+      showConfirmButton:true,
+      title: "¿Desea deshailitar un registro?",
+      text: "Se deshabilitara una pregunta a un equipo",
+      icon:"question"
+    })
+    .then((result)=>{
+      if(result.isConfirmed){
+        axios.put(URL_API + "equipo_preguntas/"+event.target.getAttribute('id_equipo_has_pregunta'), equipo_has_pregunta, token)
+        .then((response)=>{
+          if(response){
+            Swal.fire('Guardado', '', 'success')
+            console.log(response)
+          }
+        })
+        .catch((e)=>console.log(e))
+      }else if(result.isDismissed){
+        event.target.checked = false;
+        Swal.fire('Cancelado', '', 'success')
+      }
+    })
     console.log("BORRAR")
-    
   }
 }
 
@@ -353,6 +418,7 @@ th.sort {
                           type="checkbox" 
                           :id_pregunta="row.id" 
                           :id_equipo="equipo.id" 
+                          :id_equipo_has_pregunta="getIdEquipo_Has_Pregunta(row.id, equipo.id)"
                           :checked="isCheckedState1(row.id, equipo.id, equipo_estado)"
                           @change="estado_equipo_has_pregunta(row.id, equipo.id, $event)"
                         />
@@ -399,6 +465,7 @@ th.sort {
                           type="checkbox" 
                           :id_pregunta="row.id" 
                           :id_equipo="equipo.id" 
+                          :id_equipo_has_pregunta="getIdEquipo_Has_Pregunta2(row.id, equipo.id)"
                           :checked="isCheckedState2(row.id, equipo.id, equipo_estado)"
                           @change="estado_equipo_has_pregunta(row.id, equipo.id, $event)"
                         />
@@ -445,7 +512,8 @@ th.sort {
                           type="checkbox" 
                           :id_pregunta="row.id" 
                           :id_equipo="equipo.id" 
-                          :checked="isCheckedState3(row.id, equipo.id, equipo_estado)"
+                          :id_equipo_has_pregunta="getIdEquipo_Has_Pregunta3(row.id, equipo.id)"
+                          :checked="isCheckedState3(row.id, equipo.id)"
                           @change="estado_equipo_has_pregunta(row.id, equipo.id, $event)"
                         />
                       </td>
