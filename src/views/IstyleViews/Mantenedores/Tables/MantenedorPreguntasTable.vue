@@ -214,6 +214,9 @@ const ver_estado_equipo = () =>{
 
 onUpdated(()=>{
   console.log("Desde update: " + equipo_estado.value)
+  getDataEquipo_Has_Pregunta();
+  getPreguntas();
+  getEquipos();
 })
   
 
