@@ -83,7 +83,6 @@ const getDataEquipo_Has_Pregunta = async () =>{
   .then((response)=>{
     if(response){
       equipo_has_preguntas.value = response.data.preguntas
-      console.log(equipo_has_preguntas.value)
     }
   })
   .catch((error)=>{
@@ -219,8 +218,10 @@ const estado_equipo_has_pregunta = (idPregunta, idEquipo, event) =>{
         axios.post(URL_API + "equipo_preguntas/", equipo_has_pregunta, token)
         .then((response)=>{
           if(response){
+            getDataEquipo_Has_Pregunta();
+            getPreguntas();
+            getEquipos();
             Swal.fire('Guardado', '', 'success')
-            console.log(response)
           }
         })
         .catch((e)=>console.log(e))
@@ -244,7 +245,6 @@ const estado_equipo_has_pregunta = (idPregunta, idEquipo, event) =>{
         .then((response)=>{
           if(response){
             Swal.fire('Guardado', '', 'success')
-            console.log(response)
           }
         })
         .catch((e)=>console.log(e))
@@ -253,7 +253,6 @@ const estado_equipo_has_pregunta = (idPregunta, idEquipo, event) =>{
         Swal.fire('Cancelado', '', 'success')
       }
     })
-    console.log("BORRAR")
   }
 }
 
@@ -272,22 +271,12 @@ onMounted(() => {
   selectLength.classList.add("form-select");
   selectLength.style.width = "80px";
 });
-const ver_estado_equipo = () =>{
-
-  console.log(equipo_estado.value)
-}
 
 onUpdated(()=>{
-  console.log("Desde update: " + equipo_estado.value)
   getDataEquipo_Has_Pregunta();
   getPreguntas();
   getEquipos();
 })
-  
-
-
-
-
 </script>
 
 <style lang="scss" scoped>
@@ -392,7 +381,7 @@ th.sort {
                       :class="['sort', th.sort]"
                       @click="onSort($event, index)"
                     >
-                      {{ th.name +" "+ th.id}}
+                      {{ th.name }}
                     </th>
                   </tr>
                 </thead>
