@@ -5,7 +5,7 @@ import moment from "moment";
 import axios from "axios";
 
 const route = useRoute();
-const rutaAPI = "http://localhost:8000/api/";
+const rutaAPI = import.meta.env.VITE_URL_API;
 const token = {
   headers: {
     "x-token": localStorage.getItem("Token"),
@@ -31,6 +31,7 @@ const dataOrden = reactive({
   entrega: "Sin fecha",
   ingreso: null,
   obs: null,
+  estado_dispositivo: null,
 });
 
 const respuestaOrden = ref();
@@ -50,6 +51,8 @@ onMounted(() => {
       dataOrden.imei = response.data.orden.imei;
       dataOrden.codigo = response.data.orden.codigo;
       dataOrden.obs = response.data.orden.observacion;
+      //Falto definir estado del dispositivo
+      dataOrden.estado_dispositivo = response.data.orden.estado_dispositivo;
       if (response.data.orden.fecha_entrega)
         dataOrden.entrega = moment(response.data.orden.fecha_entrega).format(
           "DD-MM-YYYY"
@@ -221,7 +224,7 @@ onMounted(() => {
                             >¿el equipo se encuentra encendido?</b
                           >
                         </div>
-                        <div class="col-3 mt-1 text-center">
+                        <div class="col-2 mt-1 text-center">
                           <div
                             style="font-size: 12px"
                             v-show="dataOrden.estado_dispositivo == 1"
@@ -409,18 +412,22 @@ hr {
   margin-bottom: 0.5rem !important;
 }
 .btnVerde {
+  -webkit-print-color-adjust: exact;
   background-color: #26e2bd;
   border-radius: 40px !important;
   padding: 5px 15px;
   width: 55px;
 }
 .btnRojo {
+  -webkit-print-color-adjust: exact;
   background-color: rgb(238, 75, 75);
   color: #000;
   border-radius: 40px !important;
-  padding: 10px 13px;
-  width: 55px;
+  padding: 5px 15px; /* Ajusta el padding según tus necesidades */
+  display: inline-block; /* Asegura que el botón se ajuste al tamaño del contenido */
+  text-align: center;
 }
+
 .brtl-30 {
   border-top-left-radius: 30px;
 }

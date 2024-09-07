@@ -10,7 +10,7 @@ import { required, minLength } from "@vuelidate/validators";
 
 // Main store and Router
 const router = useRouter();
-const rutaAPI = "http://localhost:8000/api/";
+const rutaAPI = import.meta.env.VITE_URL_API;
 // Input state variables
 const state = reactive({
   email: null,

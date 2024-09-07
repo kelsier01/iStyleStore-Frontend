@@ -8,6 +8,9 @@ import LayoutBackend from "@/layouts/variations/Backend.vue";
 import LayoutBackendBoxed from "@/layouts/variations/BackendBoxed.vue";
 import LayoutBackendMegaMenu from "@/layouts/variations/BackendMegaMenu.vue";
 
+
+// Backend: Dashboard
+const BackendDashboard = () => import("@/views/IstyleViews/Dashboard/DashboardView.vue");
 // Frontend: Landing
 const Landing = () => import("@/views/landing/LandingView.vue"); // ISTYLESTORE VIEWS
 
@@ -56,9 +59,6 @@ const BackendBoxedSimple2 = () =>
 const BackendBoxedImage1 = () => import("@/views/backend-boxed/Image1View.vue");
 const BackendBoxedImage2 = () => import("@/views/backend-boxed/Image2View.vue");
 const BackendBoxedSearch = () => import("@/views/backend-boxed/SearchView.vue");
-
-// Backend: Dashboard
-const BackendDashboard = () => import("@/views/backend/DashboardView.vue");
 
 // Backend: Blocks
 const BackendBlocksStyles = () =>

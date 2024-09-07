@@ -5,7 +5,7 @@ import moment from "moment";
 import axios from "axios";
 
 const route = useRoute();
-const rutaAPI = "http://localhost:8000/api/";
+const rutaAPI = import.meta.env.VITE_URL_API;
 const token = {
   headers: {
     "x-token": localStorage.getItem("Token"),

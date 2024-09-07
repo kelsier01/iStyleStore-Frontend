@@ -5,7 +5,7 @@ import moment from "moment";
 import { useRouter } from "vue-router";
 
 // Helper variables
-const rutaAPI = "http://localhost:8000/api/";
+const rutaAPI = import.meta.env.VITE_URL_API;
 const token = {
   headers: {
     "x-token": localStorage.getItem("Token"),
@@ -22,12 +22,14 @@ onMounted(() => {
   axios
     .get(rutaAPI + "ordenes", token)
     .then((response) => {
+      console.log(response.data);
       response.data.suma =
         response.data.totalIniciadas +
         response.data.totalRevision +
         response.data.totalRetiro;
       ordenes.value = response.data;
       onlyOrdenes.value = response.data.ordenes;
+      
     })
     .catch((error) => {
       console.log(error);

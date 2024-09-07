@@ -6,7 +6,7 @@ import moment from "moment";
 import Swal from "sweetalert2";
 import axios from "axios";
 
-const rutaAPI = "http://localhost:8000/api/";
+const rutaAPI = import.meta.env.VITE_URL_API;
 const router = useRouter();
 const token = {
   headers: {

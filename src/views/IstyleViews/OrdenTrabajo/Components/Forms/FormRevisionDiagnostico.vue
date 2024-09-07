@@ -8,7 +8,7 @@ import moment from "moment";
 const props = defineProps(["getOrden", "updateEstado"]);
 const emit = defineEmits(["setValores", "updateOrden"]);
 
-const rutaAPI = "http://localhost:8000/api/";
+const rutaAPI = import.meta.env.VITE_URL_API;
 const token = {
   headers: {
     "x-token": localStorage.getItem("Token"),

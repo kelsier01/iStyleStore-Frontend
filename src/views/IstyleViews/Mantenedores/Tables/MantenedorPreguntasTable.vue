@@ -335,7 +335,6 @@ th.sort {
 
 <template>
   <!-- Page Content -->
-   <h1>Estado: {{ equipo_estado }}</h1>
   <div class="content">
     <ModalMantenedorPreguntas/>
     <BaseBlock content-full>
@@ -399,8 +398,7 @@ th.sort {
                           </button>
                         </div>
                       </td>
-                      <td >{{ row.descripcion +" "+ row.id}}</td>
-                      <!--<td v-for="equipo in equipos">{{ equipo.nombre }}</td>-->
+                      <td >{{ row.descripcion }}</td>
                       <td v-for="equipo in equipos">
                         <input 
                           class="form-check-input" 

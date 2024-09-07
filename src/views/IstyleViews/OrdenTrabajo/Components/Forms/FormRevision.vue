@@ -128,7 +128,7 @@ async function busqueda(id = null) {
       });
   } else {
     Swal.fire({
-      title: "Error campos imcompletos!",
+      title: "Error campos incompletos!",
       text: "Debe ingresar un valor valido en alguno de los campos!",
       icon: "error",
       confirmButtonText: "OK",
@@ -217,7 +217,7 @@ function updateOrden(nuevo_estado) {
     .put(rutaAPI + "ordenes/" + orden.value.id, orden.value, token)
     .then((response) => {
       Swal.fire({
-        title: "Ecelente!",
+        title: "Excelente!",
         text: "Datos almacenado correctamente!",
         icon: "success",
         confirmButtonText: "OK",
@@ -317,7 +317,7 @@ function abrirPDF(nameRoute) {
               class="btn btn-dark text-primary text-start"
               @click="habilidarGarantia"
             >
-              Hablilitar Garantia
+              Habilitar Garantia
             </button>
           </div>
           <div class="col-4 text-end">
