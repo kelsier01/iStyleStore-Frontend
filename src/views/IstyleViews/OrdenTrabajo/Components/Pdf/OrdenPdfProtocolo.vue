@@ -36,17 +36,24 @@ const dataOrden = reactive({
 
 const respuestaOrden = ref();
 
+const formatoDinero = new Intl.NumberFormat('es-CL', {
+  style: 'currency',
+  currency: 'CLP',
+  minimumFractionDigits: 0 // Para que no muestre decimales en CLP
+});
+
 onMounted(() => {
   axios
     .get(rutaAPI + "ordenes/" + route.query.idOrden, token)
     .then((response) => {
+      console.log(response.data.orden);
       dataOrden.nombre = response.data.orden.Cliente.nombre;
       dataOrden.run = response.data.orden.Cliente.run;
       dataOrden.fono = response.data.orden.Cliente.fono;
       dataOrden.email = response.data.orden.Cliente.mail;
       dataOrden.equipo = response.data.orden.Dispositivo.nombre;
       dataOrden.modelo = response.data.orden.Equipo.nombre;
-      dataOrden.valor = response.data.orden.valor;
+      dataOrden.valor = formatoDinero.format(response.data.orden.total_recepcion);
       dataOrden.tecnico = response.data.orden.tecnico;
       dataOrden.imei = response.data.orden.imei;
       dataOrden.codigo = response.data.orden.codigo;
@@ -66,6 +73,8 @@ onMounted(() => {
       console.log(error);
     });
 });
+
+
 </script>
 <template>
   <div class="container">
@@ -230,7 +239,7 @@ onMounted(() => {
                             v-show="dataOrden.estado_dispositivo == 1"
                             class="btnVerde"
                           >
-                            SI
+                            Si
                           </div>
                           <div
                             style="font-size: 12px"
@@ -277,11 +286,10 @@ onMounted(() => {
                           </label>
                         </div>
 
-                        <div class="col-3 text-center">
+                        <div class="col-3">
                           <div
                             class="btnVerde"
                             style="
-                              -webkit-print-color-adjust: exact;
                               font-size: 10px;
                             "
                             v-show="respuesta.check_resp"
@@ -291,7 +299,6 @@ onMounted(() => {
                           <div
                             class="btnRojo"
                             style="
-                              -webkit-print-color-adjust: exact;
                               font-size: 10px;
                             "
                             v-show="!respuesta.check_resp"
@@ -412,6 +419,7 @@ hr {
   margin-bottom: 0.5rem !important;
 }
 .btnVerde {
+  text-align: center;
   -webkit-print-color-adjust: exact;
   background-color: #26e2bd;
   border-radius: 40px !important;
@@ -426,6 +434,7 @@ hr {
   padding: 5px 15px; /* Ajusta el padding según tus necesidades */
   display: inline-block; /* Asegura que el botón se ajuste al tamaño del contenido */
   text-align: center;
+  width: 55px;
 }
 
 .brtl-30 {

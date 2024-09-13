@@ -44,6 +44,7 @@ const orden = reactive({
   observacion: null,
   estado_dispositivo: null,
   estado: 1,
+  total_recepcion: null,
   total: 19990,
   created_at: moment().format("YYYY-MM-DDTHH:mm"),
 });
@@ -138,6 +139,8 @@ async function sendData() {
   if (orden.cliente_id) {
     cliente.existe = true;
     let respuestas = [];
+    //Cargar valor de recepcion cuando se crea una nueva orden
+    orden.total_recepcion = orden.total;
     await axios
       .post(rutaAPI + "ordenes", orden, token)
       .then(function (response) {

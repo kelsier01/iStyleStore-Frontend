@@ -74,12 +74,14 @@ onMounted(() => {
     .get(rutaAPI + "revisiones/orden/" + route.query.idOrden, token)
     .then((response) => {
       revisiones.value = response.data.revisiones;
+      
     });
 
   axios
     .get(rutaAPI + "orden_servicios/orden/" + route.query.idOrden, token)
     .then((response) => {
       servicios.value = response.data.servicioOrden;
+      console.log(servicios.value);
     });
 });
 </script>
@@ -287,15 +289,31 @@ onMounted(() => {
                   </thead>
                   <tbody>
                     <tr v-for="serv in servicios" :key="serv.id">
-                      <td>
+                      <td  v-if="!serv.garantia_id">
                         {{ serv.servicio.nombre }}
-                        <span
-                          class="badge bg-dark text-primary rounded-pill pointer"
-                          v-show="serv.garantia_id"
-                          >Garantía</span
-                        >
                       </td>
-                      <td>{{ serv.servicio.precio }}</td>
+                      <td  v-if="!serv.garantia_id">{{ serv.servicio.precio }}</td>
+                      <!-- <td colspan="2" v-if="!serv">No registra servicios</td> -->
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-12">
+                <table id="garantiaOT" class="w-100 text-center">
+                  <thead>
+                    <tr>
+                      <th>Garantia</th>
+                      <th>Valor</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="serv in servicios" :key="serv.id">
+                      <td v-if="serv.garantia_id">
+                        {{ serv.servicio.nombre }}
+                      </td>
+                      <td v-if="serv.garantia_id">{{ serv.servicio.precio }}</td>
                       <!-- <td colspan="2" v-if="!serv">No registra servicios</td> -->
                     </tr>
                   </tbody>
@@ -430,10 +448,12 @@ hr {
 }
 #pagosOT tbody tr td:nth-last-child(1) {
   border-left: 5px solid #26e2bd;
+
 }
-#pagosOT tbody tr td:nth-last-child(3) {
-  border-right: 5px solid #26e2bd;
+#garantiaOT tbody tr td:nth-last-child(1){
+  border-left: 5px solid #26e2bd;
 }
+
 .brrl-30 {
   border-top-right-radius: 30px;
 }
@@ -449,6 +469,19 @@ hr {
   border-top-left-radius: 40px;
   border-top-right-radius: 40px;
 }
+#garantiaOT {
+  border: 5px solid #26e2bd;
+}
+
+#garantiaOT th {
+  color: white;
+}
+
+#garantiaOT thead {
+  background: #26e2bd;
+
+}
+
 #pagosOT thead {
   border-collapse: collapse;
   background: #26e2bd;

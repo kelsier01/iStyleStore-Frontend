@@ -34,6 +34,7 @@ const cargarDataTable = () => {
     .then((response) => {
       ordenes.value = response.data.ordenes.reverse().map((orden) => {
         return {
+          id: orden.id,
           cliente: orden.Cliente.nombre,
           equipo: orden.Equipo.nombre,
           dispositivo: orden.Dispositivo.nombre,

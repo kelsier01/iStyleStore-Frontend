@@ -25,7 +25,6 @@ const datosBusqueda = reactive({
   nombre: null,
   run: null,
 });
-
 const cerrarOt = ref(null);
 const allOrdenes = ref();
 const orden = ref({
@@ -70,14 +69,29 @@ const closeModal = () => {
   isModalOpened.value = false;
 };
 
+const getGarantia = ref({
+  subtotal: 0,
+  iva: 0,
+  descuento: 0,
+  total: 0,
+});
+
 watch(
   () => orden.value.subtotal,
   (subtotal, prevSubtotal) => {
     if (subtotal !== prevSubtotal) {
-      orden.value.total = subtotal - orden.value.descuento;
-      orden.value.iva = Math.round(subtotal * 0.19);
-      orden.value.stt = Math.round(orden.value.subtotal * 0.81);
-      console.log("stt", orden.value.stt);
+      if(orden.value.estado != 4){
+        orden.value.total = subtotal - orden.value.descuento;
+        orden.value.iva = Math.round(subtotal * 0.19);
+        orden.value.stt = Math.round(orden.value.subtotal * 0.81);
+      }else{
+        getGarantia.value.total = orden.value.total;
+        getGarantia.value.iva = Math.round(subtotal * 0.19);
+        getGarantia.value.subtotal = subtotal;
+        console.log("stt", orden.value.stt);
+      }
+      
+      
     }
   }
 );
@@ -86,6 +100,7 @@ watch(
   (descuento, prevDescuento) => {
     if (descuento !== prevDescuento) {
       orden.value.total = orden.value.subtotal - descuento;
+      getGarantia.value.total = getGarantia.value.subtotal - descuento;
     }
   }
 );
@@ -106,6 +121,7 @@ async function busqueda(id = null) {
       .post(rutaAPI + "ordenes/buscarOrden", datosBusqueda, token)
       .then(function (response) {
         if (response.data.orden) {
+          console.log("desde axios> ",response.data.orden);
           resetOrden();
           datosBusqueda.id = null;
           datosBusqueda.nombre = null;
@@ -494,7 +510,8 @@ function abrirPDF(nameRoute) {
       />
     </BaseBlock>
 
-    <BaseBlock>
+    <!--Cuando el estado es otro que no sea Garantia-->
+    <BaseBlock v-if="orden.estado != 4" title="Estado de Orden">
       <div class="row">
         <div class="col-12">
           <div class="card-body">
@@ -547,7 +564,78 @@ function abrirPDF(nameRoute) {
               class="form-control form-control-sm"
               v-model="orden.metodoPago"
             >
-              <option value="">Seleccione metodo de pago</option>
+              <option disabled :value="null">Seleccione metodo de pago</option>
+              <option value="1">EFECTIVO</option>
+              <option value="2">REDBANK</option>
+            </select>
+          </div>
+          <div class="col-md-auto text-center">
+            <button
+              class="btn btn-dark waves-effect waves-light"
+              @click="finalizarOrden"
+              v-if="orden.estado < 5"
+            >
+              Finalizar
+            </button>
+          </div>
+        </div>
+      </div>
+    </BaseBlock>
+    <!--Inputs para visualizar la garantia-->
+    <BaseBlock v-else title="Estado de Garantia">
+      <div class="row">
+        <div class="col-12">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-3">
+                <label>SUBTOTAL:</label>
+                <input
+                  label="precio"
+                  v-model="getGarantia.subtotal"
+                  readonly="readonly"
+                  class="form-control form-control-sm"
+                />
+              </div>
+              <div class="col-md-3">
+                <label>IVA:</label>
+                <input
+                  type="text"
+                  v-model="getGarantia.iva"
+                  readonly="readonly"
+                  aria-describedby="basic-addon2"
+                  class="form-control form-control-sm"
+                />
+              </div>
+              <div class="col-md-3" v-if="orden.estado < 5">
+                <label>DESCUENTO:</label>
+                <input
+                  type="text"
+                  v-model="getGarantia.descuento"
+                  aria-describedby="basic-addon2"
+                  class="form-control form-control-sm"
+                />
+              </div>
+              <div class="col-md-3">
+                <label>TOTAL:</label>
+                <input
+                  label="total"
+                  v-model="getGarantia.total"
+                  readonly="readonly"
+                  class="form-control form-control-sm"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 py-4">
+        <div class="row justify-content-md-center">
+          <div class="col-md-4">
+            <select
+              class="form-control form-control-sm"
+              v-model="orden.metodoPago"
+            >
+              <option disabled :value="null">Seleccione metodo de pago</option>
               <option value="1">EFECTIVO</option>
               <option value="2">REDBANK</option>
             </select>
