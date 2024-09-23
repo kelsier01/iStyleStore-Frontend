@@ -80,18 +80,14 @@ watch(
   () => orden.value.subtotal,
   (subtotal, prevSubtotal) => {
     if (subtotal !== prevSubtotal) {
-      if(orden.value.estado != 4){
+
         orden.value.total = subtotal - orden.value.descuento;
         orden.value.iva = Math.round(subtotal * 0.19);
         orden.value.stt = Math.round(orden.value.subtotal * 0.81);
-      }else{
-        getGarantia.value.total = orden.value.total;
-        getGarantia.value.iva = Math.round(subtotal * 0.19);
-        getGarantia.value.subtotal = subtotal;
+        // getGarantia.value.total = orden.value.total;
+        // getGarantia.value.iva = Math.round(subtotal * 0.19);
+        // getGarantia.value.subtotal = subtotal;
         console.log("stt", orden.value.stt);
-      }
-      
-      
     }
   }
 );
@@ -197,6 +193,8 @@ function resetOrden() {
 }
 
 function updateValores(valor) {
+  console.log("valor", valor);
+  console.log("antes",orden.value.subtotal);
   if (valor.op == 1) {
     let suma = valor.value + orden.value.subtotal;
     orden.value.subtotal = suma;
@@ -217,6 +215,10 @@ async function habilidarGarantia() {
     .post(rutaAPI + "garantia", data, token)
     .then((response) => {
       orden.value.id_ultima_garantia = response.data.id;
+      orden.value.subtotal = response.data.subtotal;
+      orden.value.iva = response.data.iva;
+      orden.value.descuento = response.data.descuento;
+      orden.value.total = response.data.total;
     })
     .then(async () => {
       await updateOrden(4);
@@ -225,12 +227,22 @@ async function habilidarGarantia() {
 }
 
 function updateOrden(nuevo_estado) {
-  orden.value.estado = nuevo_estado;
+  const dataOrden = ref();
+  if (orden.value.estado == 4) {
+    dataOrden.value = {
+      estado: 5
+    }
+  }else{
+    orden.value.estado = nuevo_estado;
+    dataOrden.value = orden.value
+  }
+
   if (nuevo_estado == 5) {
     orden.value.fecha_entrega = moment().format("YYYY-MM-DD");
   }
+console.log("dataOrden.value",dataOrden.value);
   axios
-    .put(rutaAPI + "ordenes/" + orden.value.id, orden.value, token)
+    .put(rutaAPI + "ordenes/" + orden.value.id, dataOrden.value, token)
     .then((response) => {
       Swal.fire({
         title: "Excelente!",
@@ -252,6 +264,17 @@ function updateOrden(nuevo_estado) {
 function finalizarOrden() {
   if (orden.value.metodoPago) {
     cerrarOt.value = 5;
+    console.log("finalizar_orden", orden.value);
+    if (orden.value.estado == 4) {
+      axios.put(rutaAPI+"garantia/"+ orden.value.id_ultima_garantia, {
+        subtotal: orden.value.subtotal,
+        iva: orden.value.iva,
+        descuento: orden.value.descuento,
+        total: orden.value.total
+      },token ).then((response) => {
+        console.log("putGarantia", response);
+      });
+    }
   } else {
     Swal.fire({
       title: "Faltan Datos!",
@@ -511,7 +534,7 @@ function abrirPDF(nameRoute) {
     </BaseBlock>
 
     <!--Cuando el estado es otro que no sea Garantia-->
-    <BaseBlock v-if="orden.estado != 4" title="Estado de Orden">
+    <BaseBlock title="Estado de Orden">
       <div class="row">
         <div class="col-12">
           <div class="card-body">
@@ -535,7 +558,7 @@ function abrirPDF(nameRoute) {
                   class="form-control form-control-sm"
                 />
               </div>
-              <div class="col-md-3" v-if="orden.estado < 5">
+              <div class="col-md-3">
                 <label>DESCUENTO:</label>
                 <input
                   type="text"
@@ -549,77 +572,6 @@ function abrirPDF(nameRoute) {
                 <input
                   label="total"
                   v-model="orden.total"
-                  readonly="readonly"
-                  class="form-control form-control-sm"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 py-4">
-        <div class="row justify-content-md-center">
-          <div class="col-md-4">
-            <select
-              class="form-control form-control-sm"
-              v-model="orden.metodoPago"
-            >
-              <option disabled :value="null">Seleccione metodo de pago</option>
-              <option value="1">EFECTIVO</option>
-              <option value="2">REDBANK</option>
-            </select>
-          </div>
-          <div class="col-md-auto text-center">
-            <button
-              class="btn btn-dark waves-effect waves-light"
-              @click="finalizarOrden"
-              v-if="orden.estado < 5"
-            >
-              Finalizar
-            </button>
-          </div>
-        </div>
-      </div>
-    </BaseBlock>
-    <!--Inputs para visualizar la garantia-->
-    <BaseBlock v-else title="Estado de Garantia">
-      <div class="row">
-        <div class="col-12">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-md-3">
-                <label>SUBTOTAL:</label>
-                <input
-                  label="precio"
-                  v-model="getGarantia.subtotal"
-                  readonly="readonly"
-                  class="form-control form-control-sm"
-                />
-              </div>
-              <div class="col-md-3">
-                <label>IVA:</label>
-                <input
-                  type="text"
-                  v-model="getGarantia.iva"
-                  readonly="readonly"
-                  aria-describedby="basic-addon2"
-                  class="form-control form-control-sm"
-                />
-              </div>
-              <div class="col-md-3" v-if="orden.estado < 5">
-                <label>DESCUENTO:</label>
-                <input
-                  type="text"
-                  v-model="getGarantia.descuento"
-                  aria-describedby="basic-addon2"
-                  class="form-control form-control-sm"
-                />
-              </div>
-              <div class="col-md-3">
-                <label>TOTAL:</label>
-                <input
-                  label="total"
-                  v-model="getGarantia.total"
                   readonly="readonly"
                   class="form-control form-control-sm"
                 />
