@@ -13,7 +13,7 @@ import {
 
 // Get example data
 import users from "@/data/usersDataset.json";
-import ModalMantenedorCategorias from '../Modals/ModalMantenedorCategorias.vue';
+import ModalMantenedorCategorias from "../Modals/ModalMantenedorCategorias.vue";
 // Helper variables
 const cols = reactive([
   {
@@ -26,7 +26,6 @@ const cols = reactive([
     field: "editar",
     sort: "",
   },
-
 ]);
 
 // Sort by functionality
@@ -84,11 +83,9 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-
-th{
-  background-color: #45DABE;
+th {
+  background-color: #45dabe;
 }
-
 
 .gg-select {
   box-sizing: border-box;
@@ -139,8 +136,16 @@ th.sort {
 
 <template>
   <!-- Page Content -->
+  <button
+    type="button"
+    class="btn btn-dark col-1 offset-11 waves-effect waves-light"
+    data-bs-toggle="modal"
+    data-bs-target="#modal-block-small"
+  >
+    Agregar
+  </button>
   <div class="content">
-    <ModalMantenedorCategorias/>
+    <ModalMantenedorCategorias />
     <BaseBlock content-full>
       <Dataset
         v-slot="{ ds }"
@@ -178,13 +183,19 @@ th.sort {
                   <template #default="{ row, rowIndex }">
                     <tr>
                       <td scope="row">{{ rowIndex + 1 }}</td>
-                      <td >{{ row.name }}</td>
-                      <td >
+                      <td>{{ row.name }}</td>
+                      <td>
                         <div class="btn-group">
-                          <button type="button" class="btn btn-sm btn-alt-secondary">
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-alt-secondary"
+                          >
                             <i class="fa fa-fw fa-pencil-alt"></i>
                           </button>
-                          <button type="button" class="btn btn-sm btn-alt-secondary">
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-alt-secondary"
+                          >
                             <i class="fa fa-fw fa-times"></i>
                           </button>
                         </div>

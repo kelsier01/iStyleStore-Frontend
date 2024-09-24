@@ -1,34 +1,32 @@
 <script setup>
 import { reactive, computed } from "vue";
 import { useRouter, RouterLink } from "vue-router";
-import { useTemplateStore } from "@/stores/template";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 // Vuelidate, for more info and examples you can check out https://github.com/vuelidate/vuelidate
 import useVuelidate from "@vuelidate/core";
 import { required, minLength } from "@vuelidate/validators";
 
-
-
 // Main store and Router
-const store = useTemplateStore();
 const router = useRouter();
-
+const rutaAPI = import.meta.env.VITE_URL_API;
 // Input state variables
 const state = reactive({
-  username: null,
+  email: null,
   password: null,
 });
 
 // Validation rules
 const rules = computed(() => {
   return {
-    username: {
+    email: {
       required,
       minLength: minLength(3),
     },
     password: {
       required,
-      minLength: minLength(5),
+      minLength: minLength(4),
     },
   };
 });
@@ -44,9 +42,25 @@ async function onSubmit() {
     // notify user form is invalid
     return;
   }
-
+  axios
+    .post(rutaAPI + "auth/login", state)
+    .then(function (response) {
+      // handle success
+      localStorage.setItem("Nombre", response.data.user.name);
+      localStorage.setItem("Token", response.data.token);
+      router.push({ name: "backend-dashboard" });
+      console.log(response);
+    })
+    .catch(function (error) {
+      // handle error
+      Swal.fire({
+        title: "Error!",
+        text: error.response.data.msg,
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+    });
   // Go to dashboard
-  router.push({ name: "backend-pages-auth" });
 }
 </script>
 
@@ -59,12 +73,9 @@ async function onSubmit() {
       <div
         class="hero-static col-lg-4 d-none d-lg-flex flex-column justify-content-center"
       >
-  
         <div
           class="p-4 p-xl-5 d-xl-flex justify-content-between align-items-center fs-sm"
-        >
-          
-        </div>
+        ></div>
       </div>
       <!-- END Meta Info Section -->
 
@@ -74,13 +85,16 @@ async function onSubmit() {
           <!-- Contenedor principal del logo y formulario -->
           <div style="position: relative">
             <img
-              src="/public/assets/media/istyle/isote separado-03.png"
+              src="/public/assets/media/istyle/isote_separado-03.png"
               class="imgFondo"
             />
             <!-- Header -->
             <div class="text-center mb-3">
               <!--   Logo  -->
-              <img src="/public/assets/media/istyle/logoIstyle.png" class="imgLgo" />
+              <img
+                src="/public/assets/media/istyle/logoIstyle.png"
+                class="imgLgo"
+              />
             </div>
             <!-- END Header -->
 
@@ -92,20 +106,20 @@ async function onSubmit() {
                     <input
                       type="text"
                       class="form-control"
-                      id="login-username"
-                      name="login-username"
-                      placeholder="Username"
+                      id="login-email"
+                      name="login-email"
+                      placeholder="email"
                       :class="{
-                        'is-invalid': v$.username.$errors.length,
+                        'is-invalid': v$.email.$errors.length,
                       }"
-                      v-model="state.username"
-                      @blur="v$.username.$touch"
+                      v-model="state.email"
+                      @blur="v$.email.$touch"
                     />
                     <div
-                      v-if="v$.username.$errors.length"
+                      v-if="v$.email.$errors.length"
                       class="invalid-feedback animated fadeIn"
                     >
-                      Please enter your username
+                      Por favor, ingrese su correo
                     </div>
                   </div>
                   <div class="mb-4">
@@ -125,7 +139,7 @@ async function onSubmit() {
                       v-if="v$.password.$errors.length"
                       class="invalid-feedback animated fadeIn"
                     >
-                      Please enter your password
+                      Por favor, ingrese una contraseña
                     </div>
                   </div>
                   <div
@@ -137,9 +151,12 @@ async function onSubmit() {
                         <i class="fa fa-fw fa-sign-in-alt me-1 "></i>
                         Login
                       </button> -->
-                      <RouterLink to="/backend/dashboard" class="btn btn-info">
-                        <i class="fa fa-fw fa-sign-in-alt me-1 "></i>
-                        Login
+                      <RouterLink to="" @click="onSubmit()" class="btn">
+                        <img
+                          class="mb-4"
+                          src="/public/assets/media/istyle/btnL.png"
+                          alt="branding logo"
+                        />
                       </RouterLink>
                     </div>
                   </div>
@@ -177,5 +194,10 @@ async function onSubmit() {
 .imgFondo {
   width: 80%;
   margin-left: 10%;
+}
+.form-control {
+  border-radius: 50px;
+  font-size: 1.4rem !important;
+  padding-left: 1.3rem !important;
 }
 </style>

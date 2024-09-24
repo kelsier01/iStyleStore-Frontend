@@ -1,6 +1,8 @@
 <script setup>
 import { reactive, computed, onMounted } from "vue";
+const props = defineProps(["getRevisiones"]);
 
+console.log("12", props.getRevisiones);
 // Vue Dataset, for more info and examples you can check out https://github.com/kouts/vue-dataset/tree/next
 import {
   Dataset,
@@ -32,11 +34,6 @@ const cols = reactive([
     sort: "",
   },
   {
-    name: "Actividad",
-    field: "actividad",
-    sort: "",
-  },
-  {
     name: "Observacion",
     field: "observacion",
     sort: "",
@@ -46,7 +43,6 @@ const cols = reactive([
     field: "fecha",
     sort: "",
   },
-  
 ]);
 
 // Sort by functionality
@@ -104,11 +100,9 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-
-th{
-  background-color: #45DABE;
+th {
+  background-color: #45dabe;
 }
-
 
 .gg-select {
   box-sizing: border-box;
@@ -159,65 +153,64 @@ th.sort {
 
 <template>
   <!-- Page Content -->
-  <div class="content">
-    <BaseBlock content-full>
-      <Dataset
-        v-slot="{ ds }"
-        :ds-data="users"
-        :ds-sortby="sortBy"
-        :ds-search-in="['name', 'email', 'company', 'birthdate']"
-      >
-        <div class="row" :data-page-count="ds.dsPagecount">
-          <div id="datasetLength" class="col-md-8 py-2">
-            <DatasetShow />
-          </div>
-          <div class="col-md-4 py-2">
-            <DatasetSearch ds-search-placeholder="Search..." />
-          </div>
+  <BaseBlock content-full>
+    {{ props.getRevisiones }}
+    {{ users }}
+    <Dataset
+      v-slot="{ ds }"
+      :ds-data="props.getRevisiones"
+      :ds-sortby="sortBy"
+      :ds-search-in="['orden', 'usuario', 'estado', 'fecha']"
+    >
+      <div class="row" :data-page-count="ds.dsPagecount">
+        <div id="datasetLength" class="col-md-8 py-2">
+          <DatasetShow />
         </div>
-        <hr />
-        <div class="row">
-          <div class="col-md-12">
-            <div class="table-responsive">
-              <table class="table table-striped mb-0">
-                <thead>
+        <div class="col-md-4 py-2">
+          <DatasetSearch ds-search-placeholder="Search..." />
+        </div>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col-md-12">
+          <div class="table-responsive">
+            <table class="table table-striped mb-0">
+              <thead>
+                <tr>
+                  <th scope="col">ID</th>
+                  <th
+                    v-for="(th, index) in cols"
+                    :key="th.field"
+                    :class="['sort', th.sort]"
+                    @click="onSort($event, index)"
+                  >
+                    {{ th.name }}
+                  </th>
+                </tr>
+              </thead>
+              <DatasetItem tag="tbody" class="fs-sm">
+                <template #default="{ row, rowIndex }">
                   <tr>
-                    <th scope="col">ID</th>
-                    <th
-                      v-for="(th, index) in cols"
-                      :key="th.field"
-                      :class="['sort', th.sort]"
-                      @click="onSort($event, index)"
-                    >
-                      {{ th.name }}
-                    </th>
+                    <td scope="row">{{ rowIndex + 1 }}</td>
+                    <td>{{ row.name }}</td>
+                    <td>{{ row.name }}</td>
+                    <td>{{ row.company }}</td>
+                    <td>{{ row.name }}</td>
+                    <td>{{ row.name }}</td>
                   </tr>
-                </thead>
-                <DatasetItem tag="tbody" class="fs-sm">
-                  <template #default="{ row, rowIndex }">
-                    <tr>
-                      <td scope="row">{{ rowIndex + 1 }}</td>
-                      <td >{{ row.name }}</td>
-                      <td>{{ row.name }}</td>
-                      <td >{{ row.company }}</td>
-                      <td >{{ row.birthdate }}</td>
-                      <td >{{ row.name }}</td>
-                      <td>{{ row.name }}</td>
-                    </tr>
-                  </template>
-                </DatasetItem>
-              </table>
-            </div>
+                </template>
+              </DatasetItem>
+            </table>
           </div>
         </div>
-        <div
-          class="d-flex flex-md-row flex-column justify-content-between align-items-center"
-        >
-          <DatasetInfo class="py-3 fs-sm" />
-          <DatasetPager class="flex-wrap py-3 fs-sm" />
-        </div>
-      </Dataset>
-    </BaseBlock>
-  </div>
+      </div>
+      <div
+        class="d-flex flex-md-row flex-column justify-content-between align-items-center"
+      >
+        <DatasetInfo class="py-3 fs-sm" />
+        <DatasetPager class="flex-wrap py-3 fs-sm" />
+      </div>
+    </Dataset>
+  </BaseBlock>
   <!-- END Page Content -->
 </template>

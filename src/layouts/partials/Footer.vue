@@ -16,22 +16,16 @@ const store = useTemplateStore();
               <slot name="content-right">
                 Crafted with
                 <i class="fa fa-heart text-danger"></i> by
-                <a
-                  class="fw-semibold"
-                  href="https://1.envato.market/ydb"
-                  target="_blank"
-                  >pixelcave</a
+                <a class="fw-semibold" href="#" target="_blank"
+                  >Codelopers SpA</a
                 >
               </slot>
             </div>
             <div class="col-sm-6 order-sm-1 py-1 text-center text-sm-start">
               <slot name="content-left">
-                <a
-                  class="fw-semibold"
-                  href="https://1.envato.market/AVD6j"
-                  target="_blank"
-                  >{{ store.app.name + " " + store.app.version }}</a
-                >
+                <a class="fw-semibold" href="#" target="_blank">{{
+                  store.app.name + " " + store.app.version
+                }}</a>
                 &copy; {{ store.app.copyright }}
               </slot>
             </div>

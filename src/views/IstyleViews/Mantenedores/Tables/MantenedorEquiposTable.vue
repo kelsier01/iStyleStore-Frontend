@@ -1,6 +1,6 @@
 <script setup>
-import { reactive, computed, onMounted } from "vue";
-
+import { reactive, computed, onMounted, onBeforeMount, ref } from "vue";
+import axios from "axios";
 // Vue Dataset, for more info and examples you can check out https://github.com/kouts/vue-dataset/tree/next
 import {
   Dataset,
@@ -10,23 +10,25 @@ import {
   DatasetSearch,
   DatasetShow,
 } from "vue-dataset";
-
-// Get example data
-import users from "@/data/usersDataset.json";
-import ModalMantenedorBodegas from '../Modals/ModalMantenedorEquipos.vue';
+import ModalMantenedorEquipos from "../Modals/ModalMantenedorEquipos.vue";
+import Swal from "sweetalert2";
 // Helper variables
 const cols = reactive([
   {
-    name: "Nombre",
-    field: "nombre",
+    name: "Equipo",
+    field: "equipo",
+    sort: "",
+  },
+  {
+    name: "Estado",
+    field: "estado",
     sort: "",
   },
   {
     name: "Acciones",
-    field: "editar",
+    field: "",
     sort: "",
   },
-
 ]);
 
 // Sort by functionality
@@ -67,7 +69,26 @@ function onSort(event, i) {
   sortEl.sort = toset;
 }
 
-// Apply a few Bootstrap 5 optimizations
+const estado = ref();
+const equipos = ref([]);
+const rutaAPI = import.meta.env.VITE_URL_API;
+const token = {
+  headers: {
+    "x-token": localStorage.getItem("Token"),
+  },
+};
+const equipoActualizar = ref("");
+
+const dataEquipos = () => {
+  axios.get(rutaAPI + "equipos", token).then((response) => {
+    equipos.value = response.data.equipos;
+  });
+};
+
+onBeforeMount(() => {
+  dataEquipos();
+});
+
 onMounted(() => {
   // Remove labels from
   document.querySelectorAll("#datasetLength label").forEach((el) => {
@@ -81,14 +102,48 @@ onMounted(() => {
   selectLength.classList.add("form-select");
   selectLength.style.width = "80px";
 });
+
+function abrirModal(data) {
+  estado.value = 0;
+  equipoActualizar.value = data;
+}
+function abrirModalGuardar() {
+  estado.value = 1;
+}
+function agregarEquipo() {
+  dataEquipos();
+}
+function updateEquipo(data) {
+  const idx = equipos.value.findIndex((val) => val.id === data.id);
+  // update it using the index
+  equipos.value[idx] = data;
+}
+function deshabilitarEquipo(id) {
+  Swal.fire({
+    title: "¿Está seguro que desea eliminar el Equipo?",
+    icon: "warning",
+    showDenyButton: true,
+    confirmButtonText: "OK",
+    denyButtonText: "No",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      axios.delete(rutaAPI + "equipos/" + id, token).then((response) => {
+        if (response.data) {
+          equipos.value = equipos.value.filter((equipo) => equipo.id !== id);
+          Swal.fire("Cambios guardados", "", "success");
+        }
+      });
+    } else if (result.isDenied) {
+      Swal.fire("Los cambios no se han guardado", "", "info");
+    }
+  });
+}
 </script>
 
 <style lang="scss" scoped>
-
-th{
-  background-color: #45DABE;
+th {
+  background-color: #45dabe;
 }
-
 
 .gg-select {
   box-sizing: border-box;
@@ -138,15 +193,29 @@ th.sort {
 </style>
 
 <template>
+  <button
+    type="button"
+    class="btn btn-dark col-1 offset-11 waves-effect waves-light"
+    data-bs-toggle="modal"
+    data-bs-target="#modal-block-small"
+    @click="abrirModalGuardar()"
+  >
+    Agregar
+  </button>
   <!-- Page Content -->
   <div class="content">
-    <ModalMantenedorBodegas/>
+    <ModalMantenedorEquipos
+      :estado="estado"
+      :dataEquipo="equipoActualizar"
+      @updateEquipo="updateEquipo"
+      @agregarEquipo="agregarEquipo"
+    />
     <BaseBlock content-full>
       <Dataset
         v-slot="{ ds }"
-        :ds-data="users"
+        :ds-data="equipos"
         :ds-sortby="sortBy"
-        :ds-search-in="['nombreBodega', 'creado']"
+        :ds-search-in="['nombre']"
       >
         <div class="row" :data-page-count="ds.dsPagecount">
           <div id="datasetLength" class="col-md-8 py-2">
@@ -178,13 +247,43 @@ th.sort {
                   <template #default="{ row, rowIndex }">
                     <tr>
                       <td scope="row">{{ rowIndex + 1 }}</td>
-                      <td >{{ row.name }}</td>
-                      <td >
+                      <!--El valor de cada atributo segun la columna-->
+                      <td>{{ row.nombre }}</td>
+                      <td class="d-none d-xl-table-cell text-center">
+                        <span
+                          class="fs-xs fw-semibold d-inline-block py-1 px-3 rounded-pill"
+                          :class="{
+                            'bg-success-light text-success': row.estado == 1,
+                          }"
+                          v-if="row.estado == 1"
+                          >{{ "Habilitado" }}</span
+                        >
+                        <span
+                          class="fs-xs fw-semibold d-inline-block py-1 px-3 rounded-pill"
+                          :class="{
+                            'bg-success-light text-warning': row.estado == 0,
+                          }"
+                          v-else-if="row.estado == 0"
+                          >{{ "Deshabilitado" }}</span
+                        >
+                      </td>
+                      <td>
                         <div class="btn-group">
-                          <button type="button" class="btn btn-sm btn-alt-secondary">
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-alt-secondary"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modal-block-small"
+                            @click="abrirModal(row)"
+                          >
                             <i class="fa fa-fw fa-pencil-alt"></i>
                           </button>
-                          <button type="button" class="btn btn-sm btn-alt-secondary">
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-alt-secondary"
+                            @click="deshabilitarEquipo(row.id)"
+                            v-if="row.estado == null || row.nombre == ''"
+                          >
                             <i class="fa fa-fw fa-times"></i>
                           </button>
                         </div>

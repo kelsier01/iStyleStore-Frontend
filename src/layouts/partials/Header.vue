@@ -1,14 +1,15 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useTemplateStore } from "@/stores/template";
 
 // Grab example data
-import notifications from "@/data/notifications";
 
 // Main store and Router
 const store = useTemplateStore();
 const router = useRouter();
+const userSession = localStorage.getItem("Nombre");
+const session = localStorage.getItem("Token");
 
 // Reactive variables
 const baseSearchTerm = ref("");
@@ -26,15 +27,44 @@ function eventHeaderSearch(event) {
   }
 }
 
+function verificartoken() {
+  if (
+    localStorage.getItem("Token") === undefined ||
+    localStorage.getItem("Token") === null
+  ) {
+    router.push({
+      name: "landing",
+    });
+  }
+}
+
+function cerrarSession() {
+  localStorage.setItem("Nombre", "");
+  localStorage.setItem("Token", "");
+  router.push({
+    name: "landing",
+  });
+}
+
 // Attach ESCAPE key event listener
 onMounted(() => {
   document.addEventListener("keydown", eventHeaderSearch);
+  verificartoken();
 });
 
 // Remove keydown event listener
 onUnmounted(() => {
   document.removeEventListener("keydown", eventHeaderSearch);
 });
+
+watch(
+  () => session,
+  (nuevo, anterior) => {
+    if (nuevo !== anterior) {
+      verificartoken();
+    }
+  }
+);
 </script>
 
 <template>
@@ -78,7 +108,7 @@ onUnmounted(() => {
               <!-- END Open Search Section -->
 
               <!-- Search Form (visible on larger screens) -->
-              
+
               <!-- END Search Form -->
             </slot>
           </div>
@@ -88,7 +118,7 @@ onUnmounted(() => {
           <div class="d-flex align-items-center">
             <slot name="content-right">
               <!-- User Dropdown -->
-              <div class="dropdown d-inline-block ms-2">
+              <div class="dropdown d-inline-block me-2">
                 <button
                   type="button"
                   class="btn btn-sm btn-dark d-flex align-items-center"
@@ -103,7 +133,9 @@ onUnmounted(() => {
                     alt="Header Avatar"
                     style="width: 21px"
                   />
-                  <span class="d-none d-sm-inline-block ms-2">John</span>
+                  <span class="d-none d-sm-inline-block ms-2">{{
+                    userSession
+                  }}</span>
                   <i
                     class="fa fa-fw fa-angle-down d-none d-sm-inline-block opacity-50 ms-1 mt-1"
                   ></i>
@@ -120,11 +152,11 @@ onUnmounted(() => {
                       src="/assets/media/avatars/avatar10.jpg"
                       alt="Header Avatar"
                     />
-                    <p class="mt-2 mb-0 fw-medium">John Smith</p>
+                    <p class="mt-2 mb-0 fw-medium">{{ userSession }}</p>
                     <p class="mb-0 text-muted fs-sm fw-medium">Web Developer</p>
                   </div>
                   <div class="p-2">
-                  <!--
+                    <!--
                     <a
                       class="dropdown-item d-flex align-items-center justify-content-between"
                       href="javascript:void(0)"
@@ -154,12 +186,10 @@ onUnmounted(() => {
                     >
                       <span class="fs-sm fw-medium">Lock Account</span>
                     </RouterLink> -->
-                    <RouterLink
-                      :to="{ name: 'auth-signin' }"
-                      class="dropdown-item d-flex align-items-center justify-content-between"
-                    >
-                      <span class="fs-sm fw-medium">Log Out</span>
-                    </RouterLink>
+
+                    <button class="fs-sm fw-medium" @click="cerrarSession">
+                      Log Out
+                    </button>
                   </div>
                 </div>
               </div>

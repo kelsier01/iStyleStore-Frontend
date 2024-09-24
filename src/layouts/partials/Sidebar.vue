@@ -87,10 +87,7 @@ onMounted(() => {
         <slot name="header">
           <!-- Logo -->
           <RouterLink :to="{ name: 'landing' }" class="fw-semibold text-dual">
-            <img
-              src="/public/assets/media/istyle/logoAzul.png"
-              width="100"
-            />
+            <img src="/public/assets/media/istyle/logoAzul.png" width="120" />
           </RouterLink>
           <!-- END Logo -->
         </slot>

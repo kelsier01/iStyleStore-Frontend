@@ -6,8 +6,8 @@ export const useTemplateStore = defineStore({
   state: () => ({
     // App vital details
     app: {
-      name: "lewis",
-      version: "2.0.0",
+      name: "IstyleStore",
+      version: "v.2.0.0",
       copyright: new Date().getFullYear(),
     },
 
@@ -24,7 +24,7 @@ export const useTemplateStore = defineStore({
     settings: {
       colorTheme: "", // 'amethyst', 'city', 'flat', 'modern', 'smooth'
       darkMode: false,
-      darkModeSystem: true,
+      darkModeSystem: false,
       sidebarLeft: true,
       sidebarMini: false,
       sidebarDark: true,

@@ -1,12 +1,12 @@
 <script setup>
-import MantenedorEquiposTable from "./Tables/MantenedorEquiposTable.vue";
+import MantenedorClienteTable from "./Tables/MantenedorClienteTable.vue";
 </script>
 
 <template>
   <!-- Page Content -->
   <div class="content">
-    <BaseBlock title="Mantenedor Equipos">
-      <MantenedorEquiposTable />
+    <BaseBlock title="Mantenedor Clientes">
+      <MantenedorClienteTable />
     </BaseBlock>
   </div>
   <!-- END Page Content -->

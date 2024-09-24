@@ -34,20 +34,8 @@ export default {
       icon: "fa-solid fa-box",
       sub: [
         {
-          name: "Agregar Bodegas",
-          to: "agregarbodegas",
-        },
-        {
-          name: "Agregar Marcas",
-          to: "agregarmarcas",
-        },
-        {
-          name: "Agregar Preguntas",
-          to: "agregarpreguntas",
-        },
-        {
-          name: "Agregar Categorias",
-          to: "listarcategorias",
+          name: "Clientes",
+          to: "mantenedorCliente",
         },
         {
           name: "Agregar Equipos",
@@ -62,25 +50,25 @@ export default {
           to: "listarservicio",
         },
         {
-          name: "Agregar Productos",
-          to: "listarproductos",
+          name: "Agregar Preguntas",
+          to: "agregarpreguntas",
         },
       ],
     },
-    {
-      name: "Inventario",
-      icon: "fas fa-file",
-      sub: [
-        {
-          name: "Ingresar Product",
-          to: "ingresoproduct",
-        },
-        {
-          name: "Listar Productos web",
-          to: "listarweb",
-        },
-      ],
-    },
+    // {
+    //   name: "Inventario",
+    //   icon: "fas fa-file",
+    //   sub: [
+    //     {
+    //       name: "Ingresar Product",
+    //       to: "ingresoproduct",
+    //     },
+    //     {
+    //       name: "Listar Productos web",
+    //       to: "listarweb",
+    //     },
+    //   ],
+    // },
     //   {
     //     name: "User Interface",
     //     heading: true,

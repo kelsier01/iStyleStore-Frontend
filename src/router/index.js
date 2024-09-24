@@ -4,11 +4,13 @@ import NProgress from "nprogress/nprogress.js";
 
 // Main layout variations
 import LayoutSimple from "@/layouts/variations/Simple.vue";
-import LayoutLanding from "@/layouts/variations/Landing.vue";
 import LayoutBackend from "@/layouts/variations/Backend.vue";
 import LayoutBackendBoxed from "@/layouts/variations/BackendBoxed.vue";
 import LayoutBackendMegaMenu from "@/layouts/variations/BackendMegaMenu.vue";
 
+
+// Backend: Dashboard
+const BackendDashboard = () => import("@/views/IstyleViews/Dashboard/DashboardView.vue");
 // Frontend: Landing
 const Landing = () => import("@/views/landing/LandingView.vue"); // ISTYLESTORE VIEWS
 
@@ -25,7 +27,7 @@ const OtPdfProtocolo = () =>
   import("@/views/IstyleViews/OrdenTrabajo/OtPdfView.vue");
 //2. Mantenedores
 const AgregarBodegas = () =>
-  import("@/views/IstyleViews/Mantenedores/AgregarBodegasView.vue");
+  import("@/views/IstyleViews/Mantenedores/mantenedorClientesView.vue");
 const AgregarCategorias = () =>
   import("@/views/IstyleViews/Mantenedores/AgregarCategoriasView.vue");
 const AgregarProductos = () =>
@@ -57,9 +59,6 @@ const BackendBoxedSimple2 = () =>
 const BackendBoxedImage1 = () => import("@/views/backend-boxed/Image1View.vue");
 const BackendBoxedImage2 = () => import("@/views/backend-boxed/Image2View.vue");
 const BackendBoxedSearch = () => import("@/views/backend-boxed/SearchView.vue");
-
-// Backend: Dashboard
-const BackendDashboard = () => import("@/views/backend/DashboardView.vue");
 
 // Backend: Blocks
 const BackendBlocksStyles = () =>
@@ -227,9 +226,9 @@ const SpecialsStatus = () => import("@/views/specials/StatusView.vue");
 const SpecialsComingSoon = () => import("@/views/specials/ComingSoonView.vue");
 
 // Auth
+const Login = () => import("@/views/auth/SignIn3View.vue");
 const AuthSignIn = () => import("@/views/auth/SignInView.vue");
 const AuthSignIn2 = () => import("@/views/auth/SignIn2View.vue");
-const AuthSignIn3 = () => import("@/views/auth/SignIn3View.vue");
 const AuthSignUp = () => import("@/views/auth/SignUpView.vue");
 const AuthSignUp2 = () => import("@/views/auth/SignUp2View.vue");
 const AuthSignUp3 = () => import("@/views/auth/SignUp3View.vue");
@@ -253,7 +252,7 @@ const routes = [
   //LOGIN......................
   {
     path: "/",
-    component: AuthSignIn3,
+    component: Login,
     children: [
       {
         path: "",
@@ -319,12 +318,12 @@ const routes = [
   }, //MANTENEDORES......................
 
   {
-    path: "/agregarbodegas",
+    path: "/mantenedorCliente",
     component: LayoutBackend,
     children: [
       {
         path: "",
-        name: "agregarbodegas",
+        name: "mantenedorCliente",
         component: AgregarBodegas,
       },
     ],
@@ -1034,7 +1033,7 @@ const routes = [
       {
         path: "signin3",
         name: "auth-signin3",
-        component: AuthSignIn3,
+        component: Login,
       },
       {
         path: "signup",

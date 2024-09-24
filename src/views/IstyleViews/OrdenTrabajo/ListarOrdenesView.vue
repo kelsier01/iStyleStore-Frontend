@@ -1,6 +1,5 @@
 <script setup>
-
-import ListarOrdenesTable from './Components/Tables/ListarOrdenesTable.vue'
+import ListarOrdenesTable from "./Components/Tables/ListarOrdenesTable.vue";
 </script>
 
 <template>
@@ -9,3 +8,11 @@ import ListarOrdenesTable from './Components/Tables/ListarOrdenesTable.vue'
     <ListarOrdenesTable />
   </div>
 </template>
+
+<style>
+@media (min-width: 1200px) {
+  #page-container.main-content-narrow > #main-container .content {
+    width: 100%;
+  }
+}
+</style>
