@@ -44,8 +44,8 @@ const orden = reactive({
   observacion: null,
   estado_dispositivo: null,
   estado: 1,
-  total_recepcion: null,
-  total: 19990,
+  total_recepcion: 19990,
+  total: 0,
   created_at: moment().format("YYYY-MM-DDTHH:mm"),
 });
 const cliente = reactive({
@@ -140,7 +140,7 @@ async function sendData() {
     cliente.existe = true;
     let respuestas = [];
     //Cargar valor de recepcion cuando se crea una nueva orden
-    orden.total_recepcion = orden.total;
+    // orden.total_recepcion = orden.total;
     await axios
       .post(rutaAPI + "ordenes", orden, token)
       .then(function (response) {
@@ -449,7 +449,7 @@ async function addEquipooModelo() {
               <input
                 type="number"
                 class="form-control form-control-sm"
-                v-model="orden.total"
+                v-model="orden.total_recepcion"
               />
             </div>
           </div>

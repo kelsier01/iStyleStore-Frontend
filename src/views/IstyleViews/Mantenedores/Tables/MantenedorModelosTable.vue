@@ -1,5 +1,9 @@
 <script setup>
+<<<<<<< HEAD
 import { reactive, computed, onMounted, onBeforeMount} from "vue";
+=======
+import { reactive, computed, onMounted, onBeforeMount } from "vue";
+>>>>>>> Michael
 import axios from "axios";
 import Swal from "sweetalert2";
 // Vue Dataset, for more info and examples you can check out https://github.com/kouts/vue-dataset/tree/next
@@ -11,7 +15,11 @@ import {
   DatasetSearch,
   DatasetShow,
 } from "vue-dataset";
+<<<<<<< HEAD
 import ModalMantenedorModelos from '../Modals/ModalMantenedorModelos.vue';
+=======
+import ModalMantenedorModelos from "../Modals/ModalMantenedorModelos.vue";
+>>>>>>> Michael
 import { ref } from "vue";
 // Helper variables
 const cols = reactive([
@@ -26,7 +34,11 @@ const cols = reactive([
     sort: "",
   },
   {
+<<<<<<< HEAD
     name:"Estado",
+=======
+    name: "Estado",
+>>>>>>> Michael
     field: "estado",
     sort: "",
   },
@@ -35,7 +47,10 @@ const cols = reactive([
     field: "editar",
     sort: "",
   },
+<<<<<<< HEAD
 
+=======
+>>>>>>> Michael
 ]);
 
 // Sort by functionality
@@ -75,16 +90,26 @@ function onSort(event, i) {
 
   sortEl.sort = toset;
 }
+<<<<<<< HEAD
 const estado = ref()
 const modelo = ref("")
 const modelos = ref()
 const equipos = ref()
 const modelosDispositivo = ref([])
 const URL_API = import.meta.env.VITE_URL_API
+=======
+const estado = ref();
+const modelo = ref("");
+const modelos = ref();
+const equipos = ref();
+const modelosDispositivo = ref([]);
+const URL_API = import.meta.env.VITE_URL_API;
+>>>>>>> Michael
 const token = {
   headers: {
     "x-token": localStorage.getItem("Token"),
   },
+<<<<<<< HEAD
 }
 
 async function dataModelos(){
@@ -93,24 +118,48 @@ async function dataModelos(){
   })
   .catch(function (error) {
     Swal.fire({
+=======
+};
+
+async function dataModelos() {
+  await axios
+    .get(URL_API + "modelos", token)
+    .then((response) => {
+      modelos.value = response.data.modelo;
+    })
+    .catch(function (error) {
+      Swal.fire({
+>>>>>>> Michael
         title: "Error!",
         text: error.response.data.msg,
         icon: "error",
         confirmButtonText: "OK",
       });
       console.log(error.response.data.msg);
+<<<<<<< HEAD
    }); 
   await axios.get(URL_API + "equipos", token).then((response)=>{
     equipos.value = response.data.equipos
   })
   .catch(function (error) {
     Swal.fire({
+=======
+    });
+  await axios
+    .get(URL_API + "equipos", token)
+    .then((response) => {
+      equipos.value = response.data.equipos;
+    })
+    .catch(function (error) {
+      Swal.fire({
+>>>>>>> Michael
         title: "Error!",
         text: error.response.data.msg,
         icon: "error",
         confirmButtonText: "OK",
       });
       console.log(error.response.data.msg);
+<<<<<<< HEAD
    });
    const equipoDict = {};
       equipos.value.forEach(equipo => {
@@ -126,6 +175,23 @@ async function dataModelos(){
 }
 
 onBeforeMount( () =>{
+=======
+    });
+  const equipoDict = {};
+  equipos.value.forEach((equipo) => {
+    equipoDict[equipo.id] = equipo.nombre;
+  });
+
+  modelosDispositivo.value = modelos.value.map((modelo) => {
+    return {
+      ...modelo,
+      nombreEquipo: equipoDict[modelo.modelo] || "Equipo no encontrado",
+    };
+  });
+}
+
+onBeforeMount(() => {
+>>>>>>> Michael
   dataModelos();
 });
 // Apply a few Bootstrap 5 optimizations
@@ -154,15 +220,23 @@ function updateModelo(data) {
   const idx = modelosDispositivo.value.findIndex((val) => val.id === data.id);
   // update it using the index
   modelosDispositivo.value[idx] = data;
+<<<<<<< HEAD
   console.log(modelosDispositivo)
+=======
+  console.log(modelosDispositivo);
+>>>>>>> Michael
 }
 function guardarModelo() {
   dataModelos();
 }
 
+<<<<<<< HEAD
 
 function deshabilitarModelo(id) {
   
+=======
+function deshabilitarModelo(id) {
+>>>>>>> Michael
   Swal.fire({
     title: "¿Está seguro que desea eliminar el Dispositivo?",
     icon: "warning",
@@ -171,6 +245,7 @@ function deshabilitarModelo(id) {
     denyButtonText: "No",
   }).then((result) => {
     if (result.isConfirmed) {
+<<<<<<< HEAD
       axios
         .delete(URL_API + "modelos/" + id, token)
         .then((response) => {
@@ -179,11 +254,22 @@ function deshabilitarModelo(id) {
             Swal.fire("Cambios guardados", "", "success");
           }
         });
+=======
+      axios.delete(URL_API + "modelos/" + id, token).then((response) => {
+        if (response.data) {
+          modelosDispositivo.value = modelosDispositivo.value.filter(
+            (modelo) => modelo.id !== id
+          );
+          Swal.fire("Cambios guardados", "", "success");
+        }
+      });
+>>>>>>> Michael
     } else if (result.isDenied) {
       Swal.fire("Los cambios no se han guardado", "", "info");
     }
   });
 }
+<<<<<<< HEAD
 
 
 </script>
@@ -195,6 +281,15 @@ th{
 }
 
 
+=======
+</script>
+
+<style lang="scss" scoped>
+th {
+  background-color: #45dabe;
+}
+
+>>>>>>> Michael
 .gg-select {
   box-sizing: border-box;
   position: relative;
@@ -298,23 +393,43 @@ th.sort {
                   <template #default="{ row, rowIndex }">
                     <tr>
                       <td scope="row">{{ rowIndex + 1 }}</td>
+<<<<<<< HEAD
                       <td >{{ row.nombre }}</td>
+=======
+                      <td>{{ row.nombre }}</td>
+>>>>>>> Michael
                       <td>{{ row.nombreEquipo }}</td>
                       <td class="d-none d-xl-table-cell text-center">
                         <span
                           class="fs-xs fw-semibold d-inline-block py-1 px-3 rounded-pill"
+<<<<<<< HEAD
                           :class="{'bg-success-light text-success': row.estado == 1}"
+=======
+                          :class="{
+                            'bg-success-light text-success': row.estado == 1,
+                          }"
+>>>>>>> Michael
                           v-if="row.estado == 1"
                           >{{ "Habilitado" }}</span
                         >
                         <span
                           class="fs-xs fw-semibold d-inline-block py-1 px-3 rounded-pill"
+<<<<<<< HEAD
                           :class="{'bg-success-light text-warning': row.estado == 0}"
+=======
+                          :class="{
+                            'bg-success-light text-warning': row.estado == 0,
+                          }"
+>>>>>>> Michael
                           v-else-if="row.estado == 0"
                           >{{ "Deshabilitado" }}</span
                         >
                       </td>
+<<<<<<< HEAD
                       <td >
+=======
+                      <td>
+>>>>>>> Michael
                         <div class="btn-group">
                           <button
                             type="button"
@@ -329,7 +444,15 @@ th.sort {
                             type="button"
                             class="btn btn-sm btn-alt-secondary"
                             @click="deshabilitarModelo(row.id)"
+<<<<<<< HEAD
                             v-if="row.estado == null || row.nombre == '' || row.modelo == null"
+=======
+                            v-if="
+                              row.estado == null ||
+                              row.nombre == '' ||
+                              row.modelo == null
+                            "
+>>>>>>> Michael
                           >
                             <i class="fa fa-fw fa-times"></i>
                           </button>

@@ -5,7 +5,7 @@ import moment from "moment";
 import { useRouter } from "vue-router";
 
 // Helper variables
-const rutaAPI = import.meta.env.VITE_URL_API;;
+const rutaAPI = import.meta.env.VITE_URL_API;
 const token = {
   headers: {
     "x-token": localStorage.getItem("Token"),

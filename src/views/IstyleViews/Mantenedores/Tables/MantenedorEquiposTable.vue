@@ -28,7 +28,11 @@ const cols = reactive([
     name: "Acciones",
     field: "",
     sort: "",
+<<<<<<< HEAD
   }
+=======
+  },
+>>>>>>> Michael
 ]);
 
 // Sort by functionality
@@ -79,12 +83,20 @@ const token = {
 };
 const equipoActualizar = ref("");
 
+<<<<<<< HEAD
 const dataEquipos = () =>{
   axios.get(rutaAPI + "equipos", token).then((response) => {
     equipos.value = response.data.equipos;
   });
 }
 
+=======
+const dataEquipos = () => {
+  axios.get(rutaAPI + "equipos", token).then((response) => {
+    equipos.value = response.data.equipos;
+  });
+};
+>>>>>>> Michael
 
 onBeforeMount(() => {
   dataEquipos();
@@ -111,7 +123,11 @@ function abrirModal(data) {
 function abrirModalGuardar() {
   estado.value = 1;
 }
+<<<<<<< HEAD
 function agregarEquipo(){
+=======
+function agregarEquipo() {
+>>>>>>> Michael
   dataEquipos();
 }
 function updateEquipo(data) {
@@ -128,6 +144,7 @@ function deshabilitarEquipo(id) {
     denyButtonText: "No",
   }).then((result) => {
     if (result.isConfirmed) {
+<<<<<<< HEAD
       axios
         .delete(rutaAPI + "equipos/" + id, token)
         .then((response) => {
@@ -136,6 +153,14 @@ function deshabilitarEquipo(id) {
             Swal.fire("Cambios guardados", "", "success");
           }
         });
+=======
+      axios.delete(rutaAPI + "equipos/" + id, token).then((response) => {
+        if (response.data) {
+          equipos.value = equipos.value.filter((equipo) => equipo.id !== id);
+          Swal.fire("Cambios guardados", "", "success");
+        }
+      });
+>>>>>>> Michael
     } else if (result.isDenied) {
       Swal.fire("Los cambios no se han guardado", "", "info");
     }
@@ -255,13 +280,25 @@ th.sort {
                       <td class="d-none d-xl-table-cell text-center">
                         <span
                           class="fs-xs fw-semibold d-inline-block py-1 px-3 rounded-pill"
+<<<<<<< HEAD
                           :class="{'bg-success-light text-success': row.estado == 1}"
+=======
+                          :class="{
+                            'bg-success-light text-success': row.estado == 1,
+                          }"
+>>>>>>> Michael
                           v-if="row.estado == 1"
                           >{{ "Habilitado" }}</span
                         >
                         <span
                           class="fs-xs fw-semibold d-inline-block py-1 px-3 rounded-pill"
+<<<<<<< HEAD
                           :class="{'bg-success-light text-warning': row.estado == 0}"
+=======
+                          :class="{
+                            'bg-success-light text-warning': row.estado == 0,
+                          }"
+>>>>>>> Michael
                           v-else-if="row.estado == 0"
                           >{{ "Deshabilitado" }}</span
                         >
@@ -282,7 +319,10 @@ th.sort {
                             class="btn btn-sm btn-alt-secondary"
                             @click="deshabilitarEquipo(row.id)"
                             v-if="row.estado == null || row.nombre == ''"
+<<<<<<< HEAD
 
+=======
+>>>>>>> Michael
                           >
                             <i class="fa fa-fw fa-times"></i>
                           </button>

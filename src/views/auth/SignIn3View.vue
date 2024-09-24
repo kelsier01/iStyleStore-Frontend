@@ -85,7 +85,7 @@ async function onSubmit() {
           <!-- Contenedor principal del logo y formulario -->
           <div style="position: relative">
             <img
-              src="/public/assets/media/istyle/isote separado-03.png"
+              src="/public/assets/media/istyle/isote_separado-03.png"
               class="imgFondo"
             />
             <!-- Header -->

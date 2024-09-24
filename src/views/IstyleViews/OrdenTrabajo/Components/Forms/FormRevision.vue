@@ -80,14 +80,13 @@ watch(
   () => orden.value.subtotal,
   (subtotal, prevSubtotal) => {
     if (subtotal !== prevSubtotal) {
-
-        orden.value.total = subtotal - orden.value.descuento;
-        orden.value.iva = Math.round(subtotal * 0.19);
-        orden.value.stt = Math.round(orden.value.subtotal * 0.81);
-        // getGarantia.value.total = orden.value.total;
-        // getGarantia.value.iva = Math.round(subtotal * 0.19);
-        // getGarantia.value.subtotal = subtotal;
-        console.log("stt", orden.value.stt);
+      orden.value.total = subtotal - orden.value.descuento;
+      orden.value.iva = Math.round(subtotal * 0.19);
+      orden.value.stt = Math.round(orden.value.subtotal * 0.81);
+      // getGarantia.value.total = orden.value.total;
+      // getGarantia.value.iva = Math.round(subtotal * 0.19);
+      // getGarantia.value.subtotal = subtotal;
+      console.log("stt", orden.value.stt);
     }
   }
 );
@@ -117,14 +116,13 @@ async function busqueda(id = null) {
       .post(rutaAPI + "ordenes/buscarOrden", datosBusqueda, token)
       .then(function (response) {
         if (response.data.orden) {
-          console.log("desde axios> ",response.data.orden);
+          console.log("desde axios> ", response.data.orden);
           resetOrden();
           datosBusqueda.id = null;
           datosBusqueda.nombre = null;
           datosBusqueda.run = null;
           if (response.data.rows == 1) {
             cargarOrden(response.data.orden);
-            console.log("busqueda 1 row");
           } else {
             allOrdenes.value = response.data.orden;
             openModal();
@@ -154,9 +152,9 @@ function cargarOrden(data) {
     closeModal();
   }
   data.created_at = moment(data.created_at).format("YYYY-MM-DD HH:mm");
-  data.subtotal = data.total;
   data.soloRevision = data.total;
-  data.stt = Math.round(data.subtotal * 0.81);
+  data.stt = data.subtotal;
+  data.metodoPago = null;
   data.ordenServicios = [];
   if (data.orden_has_servicios && data.orden_has_servicios.length > 0) {
     data.orden_has_servicios.map((item) => {
@@ -171,6 +169,18 @@ function cargarOrden(data) {
       };
       data.ordenServicios.push(params);
     });
+  }
+  if (data.id_ultima_garantia && data.estado == 4) {
+    axios
+      .get(rutaAPI + "garantia/" + data.id_ultima_garantia, token)
+      .then(function (response) {
+        orden.value.subtotal = response.data.subtotal;
+        orden.value.iva = response.data.iva;
+        orden.value.descuento = response.data.descuento;
+        orden.value.total = response.data.total;
+        orden.value.metodoPago = null;
+        console.log("entro a garantia", response.data);
+      });
   }
   orden.value = data;
 }
@@ -194,7 +204,7 @@ function resetOrden() {
 
 function updateValores(valor) {
   console.log("valor", valor);
-  console.log("antes",orden.value.subtotal);
+  console.log("antes", orden.value.subtotal);
   if (valor.op == 1) {
     let suma = valor.value + orden.value.subtotal;
     orden.value.subtotal = suma;
@@ -215,14 +225,10 @@ async function habilidarGarantia() {
     .post(rutaAPI + "garantia", data, token)
     .then((response) => {
       orden.value.id_ultima_garantia = response.data.id;
-      orden.value.subtotal = response.data.subtotal;
-      orden.value.iva = response.data.iva;
-      orden.value.descuento = response.data.descuento;
-      orden.value.total = response.data.total;
     })
     .then(async () => {
       await updateOrden(4);
-      busqueda(orden.value.id);
+      // await busqueda(orden.value.id);
     });
 }
 
@@ -230,17 +236,17 @@ function updateOrden(nuevo_estado) {
   const dataOrden = ref();
   if (orden.value.estado == 4) {
     dataOrden.value = {
-      estado: 5
-    }
-  }else{
+      estado: 5,
+    };
+  } else {
     orden.value.estado = nuevo_estado;
-    dataOrden.value = orden.value
+    dataOrden.value = orden.value;
   }
 
   if (nuevo_estado == 5) {
     orden.value.fecha_entrega = moment().format("YYYY-MM-DD");
   }
-console.log("dataOrden.value",dataOrden.value);
+  console.log("dataOrden.value", dataOrden.value);
   axios
     .put(rutaAPI + "ordenes/" + orden.value.id, dataOrden.value, token)
     .then((response) => {
@@ -266,14 +272,20 @@ function finalizarOrden() {
     cerrarOt.value = 5;
     console.log("finalizar_orden", orden.value);
     if (orden.value.estado == 4) {
-      axios.put(rutaAPI+"garantia/"+ orden.value.id_ultima_garantia, {
-        subtotal: orden.value.subtotal,
-        iva: orden.value.iva,
-        descuento: orden.value.descuento,
-        total: orden.value.total
-      },token ).then((response) => {
-        console.log("putGarantia", response);
-      });
+      axios
+        .put(
+          rutaAPI + "garantia/" + orden.value.id_ultima_garantia,
+          {
+            subtotal: orden.value.subtotal,
+            iva: orden.value.iva,
+            descuento: orden.value.descuento,
+            total: orden.value.total,
+          },
+          token
+        )
+        .then((response) => {
+          console.log("putGarantia", response);
+        });
     }
   } else {
     Swal.fire({
@@ -539,6 +551,26 @@ function abrirPDF(nameRoute) {
         <div class="col-12">
           <div class="card-body">
             <div class="row">
+              <div class="col-md-4">
+                <label
+                  >Valor diagnóstico previsto en recepción del equipo:</label
+                >
+                <input
+                  label="total_recepcion"
+                  v-model="orden.total_recepcion"
+                  readonly="readonly"
+                  class="form-control form-control-sm"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <div class="card-body">
+            <div class="row">
               <div class="col-md-3">
                 <label>SUBTOTAL:</label>
                 <input
@@ -565,6 +597,7 @@ function abrirPDF(nameRoute) {
                   v-model="orden.descuento"
                   aria-describedby="basic-addon2"
                   class="form-control form-control-sm"
+                  :disabled="orden.estado == 5"
                 />
               </div>
               <div class="col-md-3">

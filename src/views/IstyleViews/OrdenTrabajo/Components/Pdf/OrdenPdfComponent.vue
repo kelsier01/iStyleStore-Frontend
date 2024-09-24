@@ -74,7 +74,6 @@ onMounted(() => {
     .get(rutaAPI + "revisiones/orden/" + route.query.idOrden, token)
     .then((response) => {
       revisiones.value = response.data.revisiones;
-      
     });
 
   axios
@@ -289,10 +288,12 @@ onMounted(() => {
                   </thead>
                   <tbody>
                     <tr v-for="serv in servicios" :key="serv.id">
-                      <td  v-if="!serv.garantia_id">
+                      <td v-if="!serv.garantia_id">
                         {{ serv.servicio.nombre }}
                       </td>
-                      <td  v-if="!serv.garantia_id">{{ serv.servicio.precio }}</td>
+                      <td v-if="!serv.garantia_id">
+                        {{ serv.servicio.precio }}
+                      </td>
                       <!-- <td colspan="2" v-if="!serv">No registra servicios</td> -->
                     </tr>
                   </tbody>
@@ -313,7 +314,9 @@ onMounted(() => {
                       <td v-if="serv.garantia_id">
                         {{ serv.servicio.nombre }}
                       </td>
-                      <td v-if="serv.garantia_id">{{ serv.servicio.precio }}</td>
+                      <td v-if="serv.garantia_id">
+                        {{ serv.servicio.precio }}
+                      </td>
                       <!-- <td colspan="2" v-if="!serv">No registra servicios</td> -->
                     </tr>
                   </tbody>
@@ -448,9 +451,8 @@ hr {
 }
 #pagosOT tbody tr td:nth-last-child(1) {
   border-left: 5px solid #26e2bd;
-
 }
-#garantiaOT tbody tr td:nth-last-child(1){
+#garantiaOT tbody tr td:nth-last-child(1) {
   border-left: 5px solid #26e2bd;
 }
 
@@ -479,7 +481,6 @@ hr {
 
 #garantiaOT thead {
   background: #26e2bd;
-
 }
 
 #pagosOT thead {

@@ -13,16 +13,17 @@ import {
 
 // Get example data
 import users from "@/data/usersDataset.json";
-<<<<<<< HEAD
-import ModalMantenedorCategorias from '../Modals/ModalMantenedorCategorias.vue';
-=======
-import ModalMantenedorCategorias from "../Modals/ModalMantenedorCategorias.vue";
->>>>>>> Michael
+import ModalMantenedorBodegas from '../Modals/ModalMantenedorBodegas.vue';
 // Helper variables
 const cols = reactive([
   {
-    name: "Nombre ",
-    field: "nombre",
+    name: "Nombre Bodega",
+    field: "nombreBodega",
+    sort: "",
+  },
+  {
+    name: "Creado",
+    field: "creado",
     sort: "",
   },
   {
@@ -30,10 +31,7 @@ const cols = reactive([
     field: "editar",
     sort: "",
   },
-<<<<<<< HEAD
 
-=======
->>>>>>> Michael
 ]);
 
 // Sort by functionality
@@ -91,19 +89,12 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-<<<<<<< HEAD
 
 th{
   background-color: #45DABE;
 }
 
 
-=======
-th {
-  background-color: #45dabe;
-}
-
->>>>>>> Michael
 .gg-select {
   box-sizing: border-box;
   position: relative;
@@ -153,20 +144,8 @@ th.sort {
 
 <template>
   <!-- Page Content -->
-  <button
-    type="button"
-    class="btn btn-dark col-1 offset-11 waves-effect waves-light"
-    data-bs-toggle="modal"
-    data-bs-target="#modal-block-small"
-  >
-    Agregar
-  </button>
   <div class="content">
-<<<<<<< HEAD
-    <ModalMantenedorCategorias/>
-=======
-    <ModalMantenedorCategorias />
->>>>>>> Michael
+    <ModalMantenedorBodegas/>
     <BaseBlock content-full>
       <Dataset
         v-slot="{ ds }"
@@ -204,29 +183,14 @@ th.sort {
                   <template #default="{ row, rowIndex }">
                     <tr>
                       <td scope="row">{{ rowIndex + 1 }}</td>
-<<<<<<< HEAD
                       <td >{{ row.name }}</td>
+                      <td >{{ row.company }}</td>
                       <td >
                         <div class="btn-group">
                           <button type="button" class="btn btn-sm btn-alt-secondary">
                             <i class="fa fa-fw fa-pencil-alt"></i>
                           </button>
                           <button type="button" class="btn btn-sm btn-alt-secondary">
-=======
-                      <td>{{ row.name }}</td>
-                      <td>
-                        <div class="btn-group">
-                          <button
-                            type="button"
-                            class="btn btn-sm btn-alt-secondary"
-                          >
-                            <i class="fa fa-fw fa-pencil-alt"></i>
-                          </button>
-                          <button
-                            type="button"
-                            class="btn btn-sm btn-alt-secondary"
-                          >
->>>>>>> Michael
                             <i class="fa fa-fw fa-times"></i>
                           </button>
                         </div>

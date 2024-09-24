@@ -10,7 +10,11 @@ import {
   DatasetSearch,
   DatasetShow,
 } from "vue-dataset";
+<<<<<<< HEAD
 import ModalMantenedorServicios from '../Modals/ModalMantenedorServicios.vue';
+=======
+import ModalMantenedorServicios from "../Modals/ModalMantenedorServicios.vue";
+>>>>>>> Michael
 import axios from "axios";
 import Swal from "sweetalert2";
 // Helper variables
@@ -28,14 +32,21 @@ const cols = reactive([
   {
     name: "Estado",
     field: "estado",
+<<<<<<< HEAD
     sort: ""
+=======
+    sort: "",
+>>>>>>> Michael
   },
   {
     name: "",
     field: "",
     sort: "",
   },
+<<<<<<< HEAD
 
+=======
+>>>>>>> Michael
 ]);
 
 // Sort by functionality
@@ -75,16 +86,24 @@ function onSort(event, i) {
 
   sortEl.sort = toset;
 }
+<<<<<<< HEAD
 const estado = ref()
 const servicio = ref()
 const servicios = ref()
 const URL_API = import.meta.env.VITE_URL_API
+=======
+const estado = ref();
+const servicio = ref();
+const servicios = ref();
+const URL_API = import.meta.env.VITE_URL_API;
+>>>>>>> Michael
 const token = {
   headers: {
     "x-token": localStorage.getItem("Token"),
   },
 };
 
+<<<<<<< HEAD
 function dataServicios(){
   axios.get(URL_API + "servicios", token)
   .then((response)=>{
@@ -95,6 +114,17 @@ function dataServicios(){
 onBeforeMount(()=>{
   dataServicios();
 })
+=======
+function dataServicios() {
+  axios.get(URL_API + "servicios", token).then((response) => {
+    servicios.value = response.data.servicios;
+  });
+}
+
+onBeforeMount(() => {
+  dataServicios();
+});
+>>>>>>> Michael
 
 // Apply a few Bootstrap 5 optimizations
 onMounted(() => {
@@ -111,6 +141,7 @@ onMounted(() => {
   selectLength.style.width = "80px";
 });
 
+<<<<<<< HEAD
 function abrirModal(data){
   estado.value = 0;
   servicio.value = data;
@@ -122,6 +153,19 @@ function agregarServicio(){
   dataServicios();
 }
 function updateServicio(data){
+=======
+function abrirModal(data) {
+  estado.value = 0;
+  servicio.value = data;
+}
+function abrirModalGuardar() {
+  estado.value = 1;
+}
+function agregarServicio() {
+  dataServicios();
+}
+function updateServicio(data) {
+>>>>>>> Michael
   const idx = servicios.value.findIndex((val) => val.id === data.id);
   // update it using the index
   servicios.value[idx] = data;
@@ -135,6 +179,7 @@ function deshabilitarEquipo(id) {
     denyButtonText: "No",
   }).then((result) => {
     if (result.isConfirmed) {
+<<<<<<< HEAD
       axios
         .delete(URL_API + "servicios/" + id, token)
         .then((response) => {
@@ -143,6 +188,16 @@ function deshabilitarEquipo(id) {
             Swal.fire("Cambios guardados", "", "success");
           }
         });
+=======
+      axios.delete(URL_API + "servicios/" + id, token).then((response) => {
+        if (response.data) {
+          servicios.value = servicios.value.filter(
+            (servicio) => servicio.id !== id
+          );
+          Swal.fire("Cambios guardados", "", "success");
+        }
+      });
+>>>>>>> Michael
     } else if (result.isDenied) {
       Swal.fire("Los cambios no se han guardado", "", "info");
     }
@@ -151,12 +206,19 @@ function deshabilitarEquipo(id) {
 </script>
 
 <style lang="scss" scoped>
+<<<<<<< HEAD
 
 th{
   background-color: #45DABE;
 }
 
 
+=======
+th {
+  background-color: #45dabe;
+}
+
+>>>>>>> Michael
 .gg-select {
   box-sizing: border-box;
   position: relative;
@@ -205,6 +267,7 @@ th.sort {
 </style>
 
 <template>
+<<<<<<< HEAD
 
   <button
       type="button"
@@ -214,6 +277,16 @@ th.sort {
       @click="abrirModalGuardar()"
       >
       Agregar
+=======
+  <button
+    type="button"
+    class="btn btn-dark col-1 offset-11 waves-effect waves-light"
+    data-bs-toggle="modal"
+    data-bs-target="#modal-block-small"
+    @click="abrirModalGuardar()"
+  >
+    Agregar
+>>>>>>> Michael
   </button>
   <!-- Page Content -->
   <div class="content">
@@ -260,30 +333,55 @@ th.sort {
                   <template #default="{ row, rowIndex }">
                     <tr>
                       <td scope="row">{{ rowIndex + 1 }}</td>
+<<<<<<< HEAD
                       <td >{{ row.nombre }}</td>
                       <td >{{ row.precio }}</td>
                       <td class="d-none d-xl-table-cell text-center">
                         <span
                           class="fs-xs fw-semibold d-inline-block py-1 px-3 rounded-pill"
                           :class="{'bg-success-light text-success': row.estado == 1}"
+=======
+                      <td>{{ row.nombre }}</td>
+                      <td>{{ row.precio }}</td>
+                      <td class="d-none d-xl-table-cell text-center">
+                        <span
+                          class="fs-xs fw-semibold d-inline-block py-1 px-3 rounded-pill"
+                          :class="{
+                            'bg-success-light text-success': row.estado == 1,
+                          }"
+>>>>>>> Michael
                           v-if="row.estado == 1"
                           >{{ "Habilitado" }}</span
                         >
                         <span
                           class="fs-xs fw-semibold d-inline-block py-1 px-3 rounded-pill"
+<<<<<<< HEAD
                           :class="{'bg-success-light text-warning': row.estado == 0}"
+=======
+                          :class="{
+                            'bg-success-light text-warning': row.estado == 0,
+                          }"
+>>>>>>> Michael
                           v-else-if="row.estado == 0"
                           >{{ "Deshabilitado" }}</span
                         >
                       </td>
+<<<<<<< HEAD
                       <td >
                         <div class="btn-group">
                           <button 
                             type="button" 
+=======
+                      <td>
+                        <div class="btn-group">
+                          <button
+                            type="button"
+>>>>>>> Michael
                             class="btn btn-sm btn-alt-secondary"
                             data-bs-toggle="modal"
                             data-bs-target="#modal-block-small"
                             @click="abrirModal(row)"
+<<<<<<< HEAD
                             >
                             <i class="fa fa-fw fa-pencil-alt"></i>
                           </button>
@@ -293,6 +391,21 @@ th.sort {
                             @click="deshabilitarEquipo(row.id)"
                             v-if="row.nombre == '' || row.estado == null || row.precio == null"
                             >
+=======
+                          >
+                            <i class="fa fa-fw fa-pencil-alt"></i>
+                          </button>
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-alt-secondary"
+                            @click="deshabilitarEquipo(row.id)"
+                            v-if="
+                              row.nombre == '' ||
+                              row.estado == null ||
+                              row.precio == null
+                            "
+                          >
+>>>>>>> Michael
                             <i class="fa fa-fw fa-times"></i>
                           </button>
                         </div>

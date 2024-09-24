@@ -29,7 +29,6 @@ onMounted(() => {
         response.data.totalRetiro;
       ordenes.value = response.data;
       onlyOrdenes.value = response.data.ordenes;
-      
     })
     .catch((error) => {
       console.log(error);

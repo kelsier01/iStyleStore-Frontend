@@ -36,10 +36,10 @@ const dataOrden = reactive({
 
 const respuestaOrden = ref();
 
-const formatoDinero = new Intl.NumberFormat('es-CL', {
-  style: 'currency',
-  currency: 'CLP',
-  minimumFractionDigits: 0 // Para que no muestre decimales en CLP
+const formatoDinero = new Intl.NumberFormat("es-CL", {
+  style: "currency",
+  currency: "CLP",
+  minimumFractionDigits: 0, // Para que no muestre decimales en CLP
 });
 
 onMounted(() => {
@@ -53,7 +53,9 @@ onMounted(() => {
       dataOrden.email = response.data.orden.Cliente.mail;
       dataOrden.equipo = response.data.orden.Dispositivo.nombre;
       dataOrden.modelo = response.data.orden.Equipo.nombre;
-      dataOrden.valor = formatoDinero.format(response.data.orden.total_recepcion);
+      dataOrden.valor = formatoDinero.format(
+        response.data.orden.total_recepcion
+      );
       dataOrden.tecnico = response.data.orden.tecnico;
       dataOrden.imei = response.data.orden.imei;
       dataOrden.codigo = response.data.orden.codigo;
@@ -73,8 +75,6 @@ onMounted(() => {
       console.log(error);
     });
 });
-
-
 </script>
 <template>
   <div class="container">
@@ -289,18 +289,14 @@ onMounted(() => {
                         <div class="col-3">
                           <div
                             class="btnVerde"
-                            style="
-                              font-size: 10px;
-                            "
+                            style="font-size: 10px"
                             v-show="respuesta.check_resp"
                           >
                             Si
                           </div>
                           <div
                             class="btnRojo"
-                            style="
-                              font-size: 10px;
-                            "
+                            style="font-size: 10px"
                             v-show="!respuesta.check_resp"
                           >
                             No
