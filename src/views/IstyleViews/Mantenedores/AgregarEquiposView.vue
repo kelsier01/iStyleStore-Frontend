@@ -1,16 +1,8 @@
 <script setup>
-<<<<<<< HEAD
-import MantenedorEquiposTable from './Tables/MantenedorEquiposTable.vue';
-</script>
-
-<template>
- 
-=======
 import MantenedorEquiposTable from "./Tables/MantenedorEquiposTable.vue";
 </script>
 
 <template>
->>>>>>> Michael
   <!-- Page Content -->
   <div class="content">
     <BaseBlock title="Mantenedor Equipos">
@@ -18,8 +10,4 @@ import MantenedorEquiposTable from "./Tables/MantenedorEquiposTable.vue";
     </BaseBlock>
   </div>
   <!-- END Page Content -->
-<<<<<<< HEAD
 </template>
-=======
-</template>
->>>>>>> Michael

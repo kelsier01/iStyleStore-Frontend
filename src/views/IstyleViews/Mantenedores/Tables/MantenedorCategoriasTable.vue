@@ -13,11 +13,7 @@ import {
 
 // Get example data
 import users from "@/data/usersDataset.json";
-<<<<<<< HEAD
-import ModalMantenedorCategorias from '../Modals/ModalMantenedorCategorias.vue';
-=======
 import ModalMantenedorCategorias from "../Modals/ModalMantenedorCategorias.vue";
->>>>>>> Michael
 // Helper variables
 const cols = reactive([
   {
@@ -30,10 +26,6 @@ const cols = reactive([
     field: "editar",
     sort: "",
   },
-<<<<<<< HEAD
-
-=======
->>>>>>> Michael
 ]);
 
 // Sort by functionality
@@ -91,19 +83,10 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-<<<<<<< HEAD
-
-th{
-  background-color: #45DABE;
-}
-
-
-=======
 th {
   background-color: #45dabe;
 }
 
->>>>>>> Michael
 .gg-select {
   box-sizing: border-box;
   position: relative;
@@ -162,11 +145,7 @@ th.sort {
     Agregar
   </button>
   <div class="content">
-<<<<<<< HEAD
-    <ModalMantenedorCategorias/>
-=======
     <ModalMantenedorCategorias />
->>>>>>> Michael
     <BaseBlock content-full>
       <Dataset
         v-slot="{ ds }"
@@ -204,15 +183,6 @@ th.sort {
                   <template #default="{ row, rowIndex }">
                     <tr>
                       <td scope="row">{{ rowIndex + 1 }}</td>
-<<<<<<< HEAD
-                      <td >{{ row.name }}</td>
-                      <td >
-                        <div class="btn-group">
-                          <button type="button" class="btn btn-sm btn-alt-secondary">
-                            <i class="fa fa-fw fa-pencil-alt"></i>
-                          </button>
-                          <button type="button" class="btn btn-sm btn-alt-secondary">
-=======
                       <td>{{ row.name }}</td>
                       <td>
                         <div class="btn-group">
@@ -226,7 +196,6 @@ th.sort {
                             type="button"
                             class="btn btn-sm btn-alt-secondary"
                           >
->>>>>>> Michael
                             <i class="fa fa-fw fa-times"></i>
                           </button>
                         </div>

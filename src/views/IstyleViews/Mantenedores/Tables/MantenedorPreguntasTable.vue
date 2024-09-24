@@ -11,11 +11,7 @@ import {
   DatasetShow,
 } from "vue-dataset";
 
-<<<<<<< HEAD
-import ModalMantenedorPreguntas from '../Modals/ModalMantenedorPreguntas.vue';
-=======
 import ModalMantenedorPreguntas from "../Modals/ModalMantenedorPreguntas.vue";
->>>>>>> Michael
 import axios from "axios";
 import { ref } from "vue";
 import Swal from "sweetalert2";
@@ -31,10 +27,6 @@ const cols = reactive([
     field: "pregunta",
     sort: "",
   },
-<<<<<<< HEAD
-  
-=======
->>>>>>> Michael
 ]);
 
 // Sort by functionality
@@ -74,76 +66,6 @@ function onSort(event, i) {
 
   sortEl.sort = toset;
 }
-<<<<<<< HEAD
-const equipo_estado = ref(1)
-const equipo_has_preguntas = ref()
-const equipos = ref()
-const preguntas = ref()
-const URL_API = import.meta.env.VITE_URL_API
-const token = {
-  headers:{
-    "x-token": localStorage.getItem("Token"),
-  },
-}
-
-const getDataEquipo_Has_Pregunta = async () =>{
-  await axios.get(URL_API + "equipo_preguntas/", token)
-  .then((response)=>{
-    if(response){
-      equipo_has_preguntas.value = response.data.preguntas
-    }
-  })
-  .catch((error)=>{
-    console.log(error)
-  })
-}
-const getEquipos = async () =>{
-  await axios.get(URL_API + "equipos/", token)
-  .then((response)=>{
-    if(response){
-      equipos.value = response.data.equipos
-      theaders()
-    }
-
-  })
-  .catch((error)=>{
-    console.log(error)
-  })
-}
-const getPreguntas = async () =>{
-  await axios.get(URL_API + "preguntas/", token)
-  .then((response)=>{
-    if(response){
-      preguntas.value = response.data.preguntas
-    }
-  })
-  .catch((error)=>{
-    console.log(error)
-  })
-}
-
-const theaders = () =>{
-  const equipos_th = equipos.value.map(equipo => ({
-    name: equipo.nombre,
-    field: equipo.nombre.toLowerCase(),
-    sort: "",
-    id: equipo.id
-  }));
-  equipos_th.forEach(equipo => cols.push(equipo));
-}
-
-
-onBeforeMount(()=>{
-  getDataEquipo_Has_Pregunta();
-  getPreguntas();
-  getEquipos();
-})
-
-const getIdEquipo_Has_Pregunta = (id_pregunta, id_equipo) => {
-  const registroEncontrado = equipo_has_preguntas.value.find(
-    registro => 
-      registro.id_pregunta === id_pregunta && 
-=======
 const equipo_estado = ref(1);
 const equipo_has_preguntas = ref();
 const equipos = ref();
@@ -213,7 +135,6 @@ const getIdEquipo_Has_Pregunta = (id_pregunta, id_equipo) => {
   const registroEncontrado = equipo_has_preguntas.value.find(
     (registro) =>
       registro.id_pregunta === id_pregunta &&
->>>>>>> Michael
       registro.id_equipo === id_equipo &&
       registro.estado === 1 &&
       registro.habilitado === 0
@@ -222,19 +143,11 @@ const getIdEquipo_Has_Pregunta = (id_pregunta, id_equipo) => {
   // Si encontramos el registro, retornamos su id
   // De lo contrario, podríamos retornar null, undefined o un valor indicativo según tu lógica de negocio
   return registroEncontrado ? registroEncontrado.id : null;
-<<<<<<< HEAD
-}
-const getIdEquipo_Has_Pregunta2 = (id_pregunta, id_equipo) => {
-  const registroEncontrado = equipo_has_preguntas.value.find(
-    registro => 
-      registro.id_pregunta === id_pregunta && 
-=======
 };
 const getIdEquipo_Has_Pregunta2 = (id_pregunta, id_equipo) => {
   const registroEncontrado = equipo_has_preguntas.value.find(
     (registro) =>
       registro.id_pregunta === id_pregunta &&
->>>>>>> Michael
       registro.id_equipo === id_equipo &&
       registro.estado === 2 &&
       registro.habilitado === 0
@@ -243,19 +156,11 @@ const getIdEquipo_Has_Pregunta2 = (id_pregunta, id_equipo) => {
   // Si encontramos el registro, retornamos su id
   // De lo contrario, podríamos retornar null, undefined o un valor indicativo según tu lógica de negocio
   return registroEncontrado ? registroEncontrado.id : null;
-<<<<<<< HEAD
-}
-const getIdEquipo_Has_Pregunta3 = (id_pregunta, id_equipo) => {
-  const registroEncontrado = equipo_has_preguntas.value.find(
-    registro => 
-      registro.id_pregunta === id_pregunta && 
-=======
 };
 const getIdEquipo_Has_Pregunta3 = (id_pregunta, id_equipo) => {
   const registroEncontrado = equipo_has_preguntas.value.find(
     (registro) =>
       registro.id_pregunta === id_pregunta &&
->>>>>>> Michael
       registro.id_equipo === id_equipo &&
       registro.estado === 3 &&
       registro.habilitado === 0
@@ -264,24 +169,6 @@ const getIdEquipo_Has_Pregunta3 = (id_pregunta, id_equipo) => {
   // Si encontramos el registro, retornamos su id
   // De lo contrario, podríamos retornar null, undefined o un valor indicativo según tu lógica de negocio
   return registroEncontrado ? registroEncontrado.id : null;
-<<<<<<< HEAD
-}
-
-
-const isCheckedState1 = (id_pregunta, id_equipo) => {
-     return equipo_has_preguntas.value.some(
-      registro => 
-      registro.id_pregunta === id_pregunta && 
-      registro.id_equipo === id_equipo &&
-      registro.estado === 1 &&
-      registro.habilitado === 0
-    );
-}
-const isCheckedState2 = (id_pregunta, id_equipo) => {
-     return equipo_has_preguntas.value.some(
-      registro => 
-      registro.id_pregunta === id_pregunta && 
-=======
 };
 
 const isCheckedState1 = (id_pregunta, id_equipo) => {
@@ -297,87 +184,19 @@ const isCheckedState2 = (id_pregunta, id_equipo) => {
   return equipo_has_preguntas.value.some(
     (registro) =>
       registro.id_pregunta === id_pregunta &&
->>>>>>> Michael
       registro.id_equipo === id_equipo &&
       registro.estado === 2 &&
       registro.habilitado === 0
   );
-<<<<<<< HEAD
-}
-const isCheckedState3 = (id_pregunta, id_equipo) => {
-     return equipo_has_preguntas.value.some(
-      registro => 
-      registro.id_pregunta === id_pregunta && 
-=======
 };
 const isCheckedState3 = (id_pregunta, id_equipo) => {
   return equipo_has_preguntas.value.some(
     (registro) =>
       registro.id_pregunta === id_pregunta &&
->>>>>>> Michael
       registro.id_equipo === id_equipo &&
       registro.estado === 3 &&
       registro.habilitado === 0
   );
-<<<<<<< HEAD
-}
-
-
-
-const estado_equipo_has_pregunta = (idPregunta, idEquipo, event) =>{
-
-  if(event.target.checked){
-    const equipo_has_pregunta = {id_equipo: idEquipo, id_pregunta: idPregunta, estado: equipo_estado.value, habilitado: 0}
-    Swal.fire({
-      showCancelButton: true,
-      showConfirmButton:true,
-      title: "¿Desea guardar un nuevo registro?",
-      text: "Se registrara una pregunta a un equipo",
-      icon:"question"
-    })
-    .then((result)=>{
-      if(result.isConfirmed){
-        axios.post(URL_API + "equipo_preguntas/", equipo_has_pregunta, token)
-        .then((response)=>{
-          if(response){
-            getDataEquipo_Has_Pregunta();
-            getPreguntas();
-            getEquipos();
-            Swal.fire('Guardado', '', 'success')
-          }
-        })
-        .catch((e)=>console.log(e))
-      }else if(result.isDismissed){
-        event.target.checked = false;
-        Swal.fire('Cancelado', '', 'success')
-      }
-    })
-  }else{
-    const equipo_has_pregunta = {id_equipo: idEquipo, id_pregunta: idPregunta, estado: equipo_estado.value, habilitado: 1}
-    Swal.fire({
-      showCancelButton: true,
-      showConfirmButton:true,
-      title: "¿Desea deshailitar un registro?",
-      text: "Se deshabilitara una pregunta a un equipo",
-      icon:"question"
-    })
-    .then((result)=>{
-      if(result.isConfirmed){
-        axios.put(URL_API + "equipo_preguntas/"+event.target.getAttribute('id_equipo_has_pregunta'), equipo_has_pregunta, token)
-        .then((response)=>{
-          if(response){
-            Swal.fire('Guardado', '', 'success')
-          }
-        })
-        .catch((e)=>console.log(e))
-      }else if(result.isDismissed){
-        event.target.checked = false;
-        Swal.fire('Cancelado', '', 'success')
-      }
-    })
-  }
-}
-=======
 };
 
 const estado_equipo_has_pregunta = (idPregunta, idEquipo, event) => {
@@ -448,7 +267,6 @@ const estado_equipo_has_pregunta = (idPregunta, idEquipo, event) => {
     });
   }
 };
->>>>>>> Michael
 
 // Apply a few Bootstrap 5 optimizations
 onMounted(() => {
@@ -466,22 +284,6 @@ onMounted(() => {
   selectLength.style.width = "80px";
 });
 
-<<<<<<< HEAD
-onUpdated(()=>{
-  getDataEquipo_Has_Pregunta();
-  getPreguntas();
-  getEquipos();
-})
-</script>
-
-<style lang="scss" scoped>
-
-th{
-  background-color: #45DABE;
-}
-
-
-=======
 onUpdated(() => {
   getDataEquipo_Has_Pregunta();
   getPreguntas();
@@ -494,7 +296,6 @@ th {
   background-color: #45dabe;
 }
 
->>>>>>> Michael
 .gg-select {
   box-sizing: border-box;
   position: relative;
@@ -545,17 +346,6 @@ th.sort {
 <template>
   <!-- Page Content -->
   <div class="content">
-<<<<<<< HEAD
-    <ModalMantenedorPreguntas/>
-    <BaseBlock content-full>
-      <label for="equipo_estado">Estado del equipo: </label>
-      <select 
-        class="form-select col-1" 
-        style="width: 140px;" 
-        name="equipo_estado" 
-        id="equipo_estado" 
-        v-model="equipo_estado" 
-=======
     <ModalMantenedorPreguntas />
     <BaseBlock content-full>
       <label for="equipo_estado">Estado del equipo: </label>
@@ -565,7 +355,6 @@ th.sort {
         name="equipo_estado"
         id="equipo_estado"
         v-model="equipo_estado"
->>>>>>> Michael
         @change="ver_estado_equipo"
       >
         <option value="1">Prendido</option>
@@ -578,10 +367,6 @@ th.sort {
         :ds-sortby="sortBy"
         :ds-search-in="['nombreBodega', 'creado']"
       >
-<<<<<<< HEAD
-
-=======
->>>>>>> Michael
         <div class="row" :data-page-count="ds.dsPagecount">
           <div id="datasetLength" class="col-md-8 py-2">
             <DatasetShow />
@@ -612,14 +397,6 @@ th.sort {
                   <template #default="{ row, rowIndex }">
                     <tr>
                       <td scope="row">{{ rowIndex + 1 }}</td>
-<<<<<<< HEAD
-                      <td >
-                        <div class="btn-group">
-                          <button type="button" class="btn btn-sm btn-alt-secondary">
-                            <i class="fa fa-fw fa-pencil-alt"></i>
-                          </button>
-                          <button type="button" class="btn btn-sm btn-alt-secondary">
-=======
                       <td>
                         <div class="btn-group">
                           <button
@@ -632,25 +409,12 @@ th.sort {
                             type="button"
                             class="btn btn-sm btn-alt-secondary"
                           >
->>>>>>> Michael
                             <i class="fa fa-fw fa-times"></i>
                           </button>
                         </div>
                       </td>
-<<<<<<< HEAD
-                      <td >{{ row.descripcion }}</td>
-                      <td v-for="equipo in equipos">
-                        <input 
-                          class="form-check-input" 
-                          type="checkbox" 
-                          :id_pregunta="row.id" 
-                          :id_equipo="equipo.id" 
-                          :id_equipo_has_pregunta="getIdEquipo_Has_Pregunta(row.id, equipo.id)"
-                          :checked="isCheckedState1(row.id, equipo.id, equipo_estado)"
-                          @change="estado_equipo_has_pregunta(row.id, equipo.id, $event)"
-=======
                       <td>{{ row.descripcion }}</td>
-                      <td v-for="equipo in equipos">
+                      <td v-for="equipo in equipos" :key="equipo.id">
                         <input
                           class="form-check-input"
                           type="checkbox"
@@ -669,7 +433,6 @@ th.sort {
                               $event
                             )
                           "
->>>>>>> Michael
                         />
                       </td>
                     </tr>
@@ -688,11 +451,7 @@ th.sort {
                       :class="['sort', th.sort]"
                       @click="onSort($event, index)"
                     >
-<<<<<<< HEAD
-                      {{ th.name +" "+ th.id}}
-=======
                       {{ th.name + " " + th.id }}
->>>>>>> Michael
                     </th>
                   </tr>
                 </thead>
@@ -700,14 +459,6 @@ th.sort {
                   <template #default="{ row, rowIndex }">
                     <tr>
                       <td scope="row">{{ rowIndex + 1 }}</td>
-<<<<<<< HEAD
-                      <td >
-                        <div class="btn-group">
-                          <button type="button" class="btn btn-sm btn-alt-secondary">
-                            <i class="fa fa-fw fa-pencil-alt"></i>
-                          </button>
-                          <button type="button" class="btn btn-sm btn-alt-secondary">
-=======
                       <td>
                         <div class="btn-group">
                           <button
@@ -720,27 +471,13 @@ th.sort {
                             type="button"
                             class="btn btn-sm btn-alt-secondary"
                           >
->>>>>>> Michael
                             <i class="fa fa-fw fa-times"></i>
                           </button>
                         </div>
                       </td>
-<<<<<<< HEAD
-                      <td >{{ row.descripcion +" "+ row.id}}</td>
-                      <!--<td v-for="equipo in equipos">{{ equipo.nombre }}</td>-->
-                      <td v-for="equipo in equipos">
-                        <input 
-                          class="form-check-input" 
-                          type="checkbox" 
-                          :id_pregunta="row.id" 
-                          :id_equipo="equipo.id" 
-                          :id_equipo_has_pregunta="getIdEquipo_Has_Pregunta2(row.id, equipo.id)"
-                          :checked="isCheckedState2(row.id, equipo.id, equipo_estado)"
-                          @change="estado_equipo_has_pregunta(row.id, equipo.id, $event)"
-=======
                       <td>{{ row.descripcion + " " + row.id }}</td>
                       <!--<td v-for="equipo in equipos">{{ equipo.nombre }}</td>-->
-                      <td v-for="equipo in equipos">
+                      <td v-for="equipo in equipos" :key="equipo.id">
                         <input
                           class="form-check-input"
                           type="checkbox"
@@ -759,7 +496,6 @@ th.sort {
                               $event
                             )
                           "
->>>>>>> Michael
                         />
                       </td>
                     </tr>
@@ -778,11 +514,7 @@ th.sort {
                       :class="['sort', th.sort]"
                       @click="onSort($event, index)"
                     >
-<<<<<<< HEAD
-                      {{ th.name +" "+ th.id}}
-=======
                       {{ th.name + " " + th.id }}
->>>>>>> Michael
                     </th>
                   </tr>
                 </thead>
@@ -790,14 +522,6 @@ th.sort {
                   <template #default="{ row, rowIndex }">
                     <tr>
                       <td scope="row">{{ rowIndex + 1 }}</td>
-<<<<<<< HEAD
-                      <td >
-                        <div class="btn-group">
-                          <button type="button" class="btn btn-sm btn-alt-secondary">
-                            <i class="fa fa-fw fa-pencil-alt"></i>
-                          </button>
-                          <button type="button" class="btn btn-sm btn-alt-secondary">
-=======
                       <td>
                         <div class="btn-group">
                           <button
@@ -810,27 +534,13 @@ th.sort {
                             type="button"
                             class="btn btn-sm btn-alt-secondary"
                           >
->>>>>>> Michael
                             <i class="fa fa-fw fa-times"></i>
                           </button>
                         </div>
                       </td>
-<<<<<<< HEAD
-                      <td >{{ row.descripcion +" "+ row.id}}</td>
-                      <!--<td v-for="equipo in equipos">{{ equipo.nombre }}</td>-->
-                      <td v-for="equipo in equipos">
-                        <input 
-                          class="form-check-input" 
-                          type="checkbox" 
-                          :id_pregunta="row.id" 
-                          :id_equipo="equipo.id" 
-                          :id_equipo_has_pregunta="getIdEquipo_Has_Pregunta3(row.id, equipo.id)"
-                          :checked="isCheckedState3(row.id, equipo.id)"
-                          @change="estado_equipo_has_pregunta(row.id, equipo.id, $event)"
-=======
                       <td>{{ row.descripcion + " " + row.id }}</td>
                       <!--<td v-for="equipo in equipos">{{ equipo.nombre }}</td>-->
-                      <td v-for="equipo in equipos">
+                      <td v-for="equipo in equipos" :key="equipo.id">
                         <input
                           class="form-check-input"
                           type="checkbox"
@@ -847,7 +557,6 @@ th.sort {
                               $event
                             )
                           "
->>>>>>> Michael
                         />
                       </td>
                     </tr>
