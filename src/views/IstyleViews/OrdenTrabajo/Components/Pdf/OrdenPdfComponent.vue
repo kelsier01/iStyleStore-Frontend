@@ -38,6 +38,8 @@ const dataOrden = reactive({
 
 const revisiones = ref();
 const servicios = ref();
+const hayGarantia = ref(false);
+const ultimaGarantia = ref();
 
 onMounted(() => {
   axios
@@ -80,9 +82,30 @@ onMounted(() => {
     .get(rutaAPI + "orden_servicios/orden/" + route.query.idOrden, token)
     .then((response) => {
       servicios.value = response.data.servicioOrden;
-      console.log(servicios.value);
+      console.log("servicios",servicios.value);
+      hayGarantia.value = servicios.value.some(servicio => !!servicio.garantia_id);
+      console.log("hayGarantia",hayGarantia.value);
+      getUltimaGarantia(servicios.value);
+      console.log(ultimaGarantia.value);
     });
 });
+
+
+const getUltimaGarantia = (listaServicios) => {
+  const listaGarantias = listaServicios.filter((servicio) => servicio.garantia_id);
+  const idUltimaGarantia = listaGarantias.at(-1).garantia_id
+  axios.get(rutaAPI + "garantia/"+idUltimaGarantia, token)
+    .then((response)=>{
+      if(response){
+        ultimaGarantia.value = response.data;
+        console.log(ultimaGarantia.value);
+      }
+    }).catch((e)=>{
+      console.log(e);
+    });
+};
+
+
 </script>
 
 <template>
@@ -300,7 +323,7 @@ onMounted(() => {
                 </table>
               </div>
             </div>
-            <div class="row mt-3">
+            <div class="row mt-3" v-show="hayGarantia">
               <div class="col-12">
                 <table id="garantiaOT" class="w-100 text-center">
                   <thead>
@@ -349,7 +372,7 @@ onMounted(() => {
                           </div>
                           <div class="col-8 d-flex justify-content-between">
                             <p>$</p>
-                            <p>{{ dataOrden.neto }}</p>
+                            <p>{{ hayGarantia ? ultimaGarantia.subtotal : dataOrden.neto }}</p>
                           </div>
                         </div>
                         <div class="row tblrec">
@@ -358,7 +381,7 @@ onMounted(() => {
                           </div>
                           <div class="col-8 d-flex justify-content-between">
                             <p>$</p>
-                            <p>{{ dataOrden.iva }}</p>
+                            <p>{{ hayGarantia ? ultimaGarantia.iva : dataOrden.iva }}</p>
                           </div>
                         </div>
                         <div class="row tblrec">
@@ -367,7 +390,7 @@ onMounted(() => {
                           </div>
                           <div class="col-8 d-flex justify-content-between">
                             <p>$</p>
-                            <p>{{ dataOrden.descuento }}</p>
+                            <p>{{ hayGarantia ? ultimaGarantia.descuento : dataOrden.descuento }}</p>
                           </div>
                         </div>
                         <div class="row tblrec">
@@ -376,7 +399,7 @@ onMounted(() => {
                           </div>
                           <div class="col-8 d-flex justify-content-between">
                             <p>$</p>
-                            <p>{{ dataOrden.total }}</p>
+                            <p>{{ hayGarantia ? ultimaGarantia.total : dataOrden.total }}</p>
                           </div>
                         </div>
                       </div>

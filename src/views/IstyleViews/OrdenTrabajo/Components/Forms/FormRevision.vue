@@ -276,7 +276,7 @@ function finalizarOrden() {
         .put(
           rutaAPI + "garantia/" + orden.value.id_ultima_garantia,
           {
-            subtotal: orden.value.subtotal,
+            subtotal: orden.value.subtotal - orden.value.iva,
             iva: orden.value.iva,
             descuento: orden.value.descuento,
             total: orden.value.total,
