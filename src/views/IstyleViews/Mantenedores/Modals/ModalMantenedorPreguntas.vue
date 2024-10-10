@@ -1,5 +1,27 @@
 <script setup>
-    
+    import axios from 'axios';
+    import { ref } from 'vue';
+    const rutaAPI = import.meta.env.VITE_URL_API;
+    const token = {
+        headers: {
+            "x-token": localStorage.getItem("Token"),
+        },
+    };
+    const emit = defineEmits(['getData']);
+    const nuevaPregunta = ref('');
+    const registrarPregunta = () =>{
+      if(nuevaPregunta.value.length > 0){
+        axios.post(rutaAPI + "preguntas", {descripcion: nuevaPregunta.value, estado: 0}, token)
+            .then((response) => {
+                console.log(response);
+                emit('getData');
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+      }
+    };
+
 </script>
 
 <template>
@@ -44,6 +66,7 @@
                     class="form-control mb-3 mt-3"
                     id="modal-block-small-name"
                     name="modal-block-small-name"
+                    v-model="nuevaPregunta"
                   />
                 </div>
               </div>
@@ -59,6 +82,7 @@
                   type="button"
                   class="btn btn-sm btn-dark"
                   data-bs-dismiss="modal"
+                  @click="registrarPregunta"
                 >
                   Guardar
                 </button>

@@ -125,10 +125,14 @@ const theaders = () => {
   equipos_th.forEach((equipo) => cols.push(equipo));
 };
 
-onBeforeMount(() => {
+const getData = () =>{
   getDataEquipo_Has_Pregunta();
   getPreguntas();
   getEquipos();
+}
+
+onBeforeMount(() => {
+  getData();
 });
 
 const getIdEquipo_Has_Pregunta = (id_pregunta, id_equipo) => {
@@ -346,7 +350,7 @@ th.sort {
 <template>
   <!-- Page Content -->
   <div class="content">
-    <ModalMantenedorPreguntas />
+    <ModalMantenedorPreguntas @getData="getData" />
     <BaseBlock content-full>
       <label for="equipo_estado">Estado del equipo: </label>
       <select
