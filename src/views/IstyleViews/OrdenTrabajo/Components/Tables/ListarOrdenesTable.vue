@@ -23,10 +23,6 @@ onBeforeMount(() => {
   axios
     .get(rutaAPI + "ordenes", token)
     .then((response) => {
-      // response.data.suma =
-      //   response.data.totalIniciadas +
-      //   response.data.totalRevision +
-      //   response.data.totalRetiro;
       ordenes.value = response.data;
       console.log("Ordenes: ",response.data);
       onlyOrdenes.value = response.data.ordenes;

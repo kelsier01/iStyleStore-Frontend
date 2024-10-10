@@ -32,6 +32,7 @@ const cargarDataTable = () => {
   axios
     .get(rutaAPI + "ordenes", token)
     .then((response) => {
+      console.log("Ordenes totaleeeeees: ",response.data);
       ordenes.value = response.data.ordenes.reverse().map((orden) => {
         return {
           id: orden.id,
@@ -213,6 +214,14 @@ const abrirPDF = (value) =>{
     query: { idOrden: value },
   });
 }
+
+const abrirOt = (value) =>{
+  router.push({
+    name: "ordenprotocolo",
+    query: { idOrden: value },
+  });
+}
+
 </script>
 
 <template>
@@ -310,6 +319,9 @@ const abrirPDF = (value) =>{
                       <i class="far fa-2x fa-eye"></i>
                     </span>
                     <span class="ms-5 pointer" @click="abrirPDF(row.id)">
+                      <i class="fa fa-2x fa-file-pdf"></i>
+                    </span>
+                    <span class="ms-5 pointer" @click="abrirOt(row.id)">
                       <i class="fa fa-2x fa-file-pdf"></i>
                     </span>
                   </td>

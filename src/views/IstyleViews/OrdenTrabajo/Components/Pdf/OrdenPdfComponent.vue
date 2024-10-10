@@ -85,7 +85,9 @@ onMounted(() => {
       console.log("servicios",servicios.value);
       hayGarantia.value = servicios.value.some(servicio => !!servicio.garantia_id);
       console.log("hayGarantia",hayGarantia.value);
-      getUltimaGarantia(servicios.value);
+      if(servicios.value.length > 0){
+        getUltimaGarantia(servicios.value);
+      }
       console.log(ultimaGarantia.value);
     });
 });

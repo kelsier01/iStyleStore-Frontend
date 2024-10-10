@@ -24,7 +24,7 @@ export default {
           to: "revision",
         },
         {
-          name: "Listar Ordenes",
+          name: "Listar Ordenes cerradas",
           to: "listarorden",
         },
       ],
