@@ -66,6 +66,10 @@ function onSort(event, i) {
 
   sortEl.sort = toset;
 }
+
+
+const estado_modal = ref(0);
+const pregunta_modal = ref('');
 const equipo_estado = ref(1);
 const equipo_has_preguntas = ref();
 const equipos = ref();
@@ -107,7 +111,7 @@ const getPreguntas = async () => {
     .get(URL_API + "preguntas/", token)
     .then((response) => {
       if (response) {
-        preguntas.value = response.data.preguntas;
+        preguntas.value = response.data.preguntas.filter((pregunta)=> pregunta.estado === 0);
       }
     })
     .catch((error) => {
@@ -293,6 +297,42 @@ onUpdated(() => {
   getPreguntas();
   getEquipos();
 });
+
+const pregunta_id = ref();
+
+const changeEstadoModal = (id,row) => {
+  //crear: 0
+  //editar: 1
+  console.log(row);
+  switch(id) {
+    case 0:
+      estado_modal.value = 0;
+      pregunta_modal.value = '';
+      pregunta_id.value = null;
+      break; // Añadir break
+    case 1:
+      estado_modal.value = 1
+      pregunta_modal.value = row.descripcion;
+      pregunta_id.value = row.id;
+      break; // Añadir break
+    // Añadir caso por defecto
+    default:
+      console.log('ID no válido');
+  }
+}
+
+const eliminarPregunta = (id) =>{
+  console.log(id);
+  axios.put(URL_API + "preguntas/" + id, { estado: 1 }, token)
+    .then((response) => {
+        console.log(response);
+        getData();
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+};
+
 </script>
 
 <style lang="scss" scoped>
@@ -350,7 +390,21 @@ th.sort {
 <template>
   <!-- Page Content -->
   <div class="content">
-    <ModalMantenedorPreguntas @getData="getData" />
+    <button
+        type="button"
+        class="btn btn-dark col-1 offset-11 waves-effect waves-light"
+        data-bs-toggle="modal"
+        data-bs-target="#modal-block-small"
+        @click="changeEstadoModal(0)"
+        >
+        Agregar
+    </button>
+    <ModalMantenedorPreguntas 
+      :estado="estado_modal"
+      :pregunta="pregunta_modal"
+      :pregunta_id="pregunta_id"
+      @getData="getData" 
+    />
     <BaseBlock content-full>
       <label for="equipo_estado">Estado del equipo: </label>
       <select
@@ -406,12 +460,16 @@ th.sort {
                           <button
                             type="button"
                             class="btn btn-sm btn-alt-secondary"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modal-block-small"
+                            @click="changeEstadoModal(1 ,row)"
                           >
                             <i class="fa fa-fw fa-pencil-alt"></i>
                           </button>
                           <button
                             type="button"
                             class="btn btn-sm btn-alt-secondary"
+                            @click="eliminarPregunta(row.id)"
                           >
                             <i class="fa fa-fw fa-times"></i>
                           </button>
@@ -468,12 +526,16 @@ th.sort {
                           <button
                             type="button"
                             class="btn btn-sm btn-alt-secondary"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modal-block-small"
+                            @click="changeEstadoModal(1, row)"
                           >
                             <i class="fa fa-fw fa-pencil-alt"></i>
                           </button>
                           <button
                             type="button"
                             class="btn btn-sm btn-alt-secondary"
+                            @click="eliminarPregunta(row.id)"
                           >
                             <i class="fa fa-fw fa-times"></i>
                           </button>
@@ -531,12 +593,16 @@ th.sort {
                           <button
                             type="button"
                             class="btn btn-sm btn-alt-secondary"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modal-block-small"
+                            @click="changeEstadoModal(1, row)"
                           >
                             <i class="fa fa-fw fa-pencil-alt"></i>
                           </button>
                           <button
                             type="button"
                             class="btn btn-sm btn-alt-secondary"
+                            @click="eliminarPregunta(row.id)"
                           >
                             <i class="fa fa-fw fa-times"></i>
                           </button>

@@ -2,7 +2,6 @@
 import Swal from "sweetalert2";
 import axios from "axios";
 import { reactive, watch } from "vue";
-import { ref } from "vue";
 import { computed } from "vue";
 
 const rutaAPI = import.meta.env.VITE_URL_API;

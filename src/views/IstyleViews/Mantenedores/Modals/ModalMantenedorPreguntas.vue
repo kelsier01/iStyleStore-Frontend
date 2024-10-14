@@ -1,39 +1,60 @@
 <script setup>
-    import axios from 'axios';
-    import { ref } from 'vue';
-    const rutaAPI = import.meta.env.VITE_URL_API;
-    const token = {
-        headers: {
-            "x-token": localStorage.getItem("Token"),
-        },
-    };
-    const emit = defineEmits(['getData']);
-    const nuevaPregunta = ref('');
-    const registrarPregunta = () =>{
-      if(nuevaPregunta.value.length > 0){
-        axios.post(rutaAPI + "preguntas", {descripcion: nuevaPregunta.value, estado: 0}, token)
-            .then((response) => {
-                console.log(response);
-                emit('getData');
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-      }
-    };
+import axios from 'axios';
+import { ref, watch } from 'vue';
+
+const rutaAPI = import.meta.env.VITE_URL_API;
+const token = {
+    headers: {
+        "x-token": localStorage.getItem("Token"),
+    },
+};
+//Props
+const props = defineProps(['estado', 'pregunta', 'pregunta_id']);
+//Se actualiza la tabla con los datos nuevos
+const emit = defineEmits(['getData']);
+
+const nuevaPregunta = ref('');
+
+watch(()=> props.pregunta, (newPregunta) =>{
+  nuevaPregunta.value = newPregunta;
+});
+
+//Crear pregunta
+const registrarPregunta = () =>{
+  if(nuevaPregunta.value.length > 0){
+    axios.post(rutaAPI + "preguntas", {descripcion: nuevaPregunta.value, estado: 0}, token)
+        .then((response) => {
+            console.log(response);
+            emit('getData');
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+  }
+};
+
+//Editar pregunta
+const editarPregunta = () =>{
+  console.log(props.pregunta_id);
+  axios.put(rutaAPI + "preguntas/" + props.pregunta_id,{
+    descripcion: nuevaPregunta.value, 
+  }, token)
+    .then((response) => {
+        console.log(response);
+        emit('getData');
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+};
 
 </script>
 
 <template>
-    <button
-        type="button"
-        class="btn btn-dark col-1 offset-11 waves-effect waves-light"
-        data-bs-toggle="modal"
-        data-bs-target="#modal-block-small"
-        >
-        Agregar
-    </button>
-    
+
+    <p>Estado: {{ props.estado }}</p>
+    <p>Pregunta: {{ props.pregunta }}</p>
+    <p>ID pregunta: {{ props.pregunta_id }}</p>
     <!-- Small Block Modal -->
     <div
       class="modal"
@@ -43,9 +64,9 @@
       aria-labelledby="modal-block-small"
       aria-hidden="true"
     >
-      <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-dialog modal-dialog-centered modal-md" role="document">
         <div class="modal-content">
-          <BaseBlock title="Agregar Preguntas" transparent class="mb-0">
+          <BaseBlock :title="props.estado == 0 ? 'Crear': 'Editar'" transparent class="mb-0">
             <template #options>
               <button
                 type="button"
@@ -82,9 +103,9 @@
                   type="button"
                   class="btn btn-sm btn-dark"
                   data-bs-dismiss="modal"
-                  @click="registrarPregunta"
+                  @click="props.estado === 1 ? editarPregunta() : registrarPregunta()"
                 >
-                  Guardar
+                  {{props.estado === 1 ? 'Editar' : 'Guardar'}}
                 </button>
               </div>
             </template>
