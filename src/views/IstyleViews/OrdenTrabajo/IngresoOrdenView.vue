@@ -74,7 +74,7 @@ onMounted(() => {
       item.respuesta = null;
       item.check_resp = true;
       return item;
-    });
+    }).filter((pregunta)=> pregunta.habilitado === 1);
   });
 });
 

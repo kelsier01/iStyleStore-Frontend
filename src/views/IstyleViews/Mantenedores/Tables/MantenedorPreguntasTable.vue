@@ -80,19 +80,21 @@ const token = {
     "x-token": localStorage.getItem("Token"),
   },
 };
-
+//Traer Equipo_Has_Preguntas
 const getDataEquipo_Has_Pregunta = async () => {
   await axios
     .get(URL_API + "equipo_preguntas/", token)
     .then((response) => {
       if (response) {
         equipo_has_preguntas.value = response.data.preguntas;
+        console.log(equipo_has_preguntas.value);
       }
     })
     .catch((error) => {
       console.log(error);
     });
 };
+// Traer equipos
 const getEquipos = async () => {
   await axios
     .get(URL_API + "equipos/", token)
@@ -106,12 +108,14 @@ const getEquipos = async () => {
       console.log(error);
     });
 };
+
+//Traer preguntas
 const getPreguntas = async () => {
   await axios
     .get(URL_API + "preguntas/", token)
     .then((response) => {
       if (response) {
-        preguntas.value = response.data.preguntas.filter((pregunta)=> pregunta.estado === 0);
+        preguntas.value = response.data.preguntas.filter((pregunta)=> pregunta.estado === 1);
       }
     })
     .catch((error) => {
@@ -145,7 +149,7 @@ const getIdEquipo_Has_Pregunta = (id_pregunta, id_equipo) => {
       registro.id_pregunta === id_pregunta &&
       registro.id_equipo === id_equipo &&
       registro.estado === 1 &&
-      registro.habilitado === 0
+      registro.habilitado === 1
   );
 
   // Si encontramos el registro, retornamos su id
@@ -158,7 +162,7 @@ const getIdEquipo_Has_Pregunta2 = (id_pregunta, id_equipo) => {
       registro.id_pregunta === id_pregunta &&
       registro.id_equipo === id_equipo &&
       registro.estado === 2 &&
-      registro.habilitado === 0
+      registro.habilitado === 1
   );
 
   // Si encontramos el registro, retornamos su id
@@ -171,7 +175,7 @@ const getIdEquipo_Has_Pregunta3 = (id_pregunta, id_equipo) => {
       registro.id_pregunta === id_pregunta &&
       registro.id_equipo === id_equipo &&
       registro.estado === 3 &&
-      registro.habilitado === 0
+      registro.habilitado === 1
   );
 
   // Si encontramos el registro, retornamos su id
@@ -185,7 +189,7 @@ const isCheckedState1 = (id_pregunta, id_equipo) => {
       registro.id_pregunta === id_pregunta &&
       registro.id_equipo === id_equipo &&
       registro.estado === 1 &&
-      registro.habilitado === 0
+      registro.habilitado === 1
   );
 };
 const isCheckedState2 = (id_pregunta, id_equipo) => {
@@ -194,7 +198,7 @@ const isCheckedState2 = (id_pregunta, id_equipo) => {
       registro.id_pregunta === id_pregunta &&
       registro.id_equipo === id_equipo &&
       registro.estado === 2 &&
-      registro.habilitado === 0
+      registro.habilitado === 1
   );
 };
 const isCheckedState3 = (id_pregunta, id_equipo) => {
@@ -203,17 +207,17 @@ const isCheckedState3 = (id_pregunta, id_equipo) => {
       registro.id_pregunta === id_pregunta &&
       registro.id_equipo === id_equipo &&
       registro.estado === 3 &&
-      registro.habilitado === 0
+      registro.habilitado === 1
   );
 };
 
-const estado_equipo_has_pregunta = (idPregunta, idEquipo, event) => {
+const estado_equipo_has_pregunta = (idPregunta, idEquipo, event, id_equipo_has_pregunta) => {
   if (event.target.checked) {
     const equipo_has_pregunta = {
-      id_equipo: idEquipo,
+      id: id_equipo_has_pregunta,
       id_pregunta: idPregunta,
+      id_equipo: idEquipo,
       estado: equipo_estado.value,
-      habilitado: 0,
     };
     Swal.fire({
       showCancelButton: true,
@@ -244,7 +248,7 @@ const estado_equipo_has_pregunta = (idPregunta, idEquipo, event) => {
       id_equipo: idEquipo,
       id_pregunta: idPregunta,
       estado: equipo_estado.value,
-      habilitado: 1,
+      habilitado: 0,
     };
     Swal.fire({
       showCancelButton: true,
@@ -255,12 +259,7 @@ const estado_equipo_has_pregunta = (idPregunta, idEquipo, event) => {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .put(
-            URL_API +
-              "equipo_preguntas/" +
-              event.target.getAttribute("id_equipo_has_pregunta"),
-            equipo_has_pregunta,
-            token
+          .put(URL_API +"equipo_preguntas/" + event.target.getAttribute("id_equipo_has_pregunta"),equipo_has_pregunta, token
           )
           .then((response) => {
             if (response) {
@@ -321,16 +320,47 @@ const changeEstadoModal = (id,row) => {
   }
 }
 
-const eliminarPregunta = (id) =>{
-  console.log(id);
-  axios.put(URL_API + "preguntas/" + id, { estado: 1 }, token)
-    .then((response) => {
-        console.log(response);
-        getData();
-    })
-    .catch((error) => {
-        console.log(error);
-    });
+const eliminarPregunta = (id, estado) => {
+  Swal.fire({
+    title: "¿Estás seguro?",
+    text: "Esta acción deshabilitará la pregunta a los equipos asociados",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#45DABE",
+    cancelButtonColor: "#1F2937",
+    confirmButtonText: "Sí, deshabilitar",
+    cancelButtonText: "Cancelar"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      axios.put(`${URL_API}equipo_preguntas/deshabilitar/${id}/${estado}`, {}, token)
+        .then((response) => {
+          if (response) {
+            Swal.fire({
+              title: "Preguntas deshabilitadas",
+              icon: "success",
+              confirmButtonColor: "#45DABE",
+            });
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+          Swal.fire({
+            title: "Error",
+            text: "Hubo un problema al deshabilitar las preguntas del los equipos",
+            icon: "error"
+          });
+        });
+
+      getData();
+    } else {
+      Swal.fire({
+        title: "Acción cancelada",
+        text: "La pregunta no ha sido deshabilitada",
+        icon: "info",
+        confirmButtonColor: "#45DABE",
+      });
+    }
+  });
 };
 
 </script>
@@ -403,7 +433,7 @@ th.sort {
       :estado="estado_modal"
       :pregunta="pregunta_modal"
       :pregunta_id="pregunta_id"
-      @getData="getData" 
+      @getData="getData"
     />
     <BaseBlock content-full>
       <label for="equipo_estado">Estado del equipo: </label>
@@ -452,9 +482,9 @@ th.sort {
                   </tr>
                 </thead>
                 <DatasetItem tag="tbody" class="fs-sm">
-                  <template #default="{ row, rowIndex }">
+                  <template #default="{ row }">
                     <tr>
-                      <td scope="row">{{ rowIndex + 1 }}</td>
+                      <td scope="row">{{ row.id}}</td>
                       <td>
                         <div class="btn-group">
                           <button
@@ -469,7 +499,7 @@ th.sort {
                           <button
                             type="button"
                             class="btn btn-sm btn-alt-secondary"
-                            @click="eliminarPregunta(row.id)"
+                            @click="eliminarPregunta(row.id, 1)"
                           >
                             <i class="fa fa-fw fa-times"></i>
                           </button>
@@ -482,14 +512,9 @@ th.sort {
                           type="checkbox"
                           :id_pregunta="row.id"
                           :id_equipo="equipo.id"
-                          :id_equipo_has_pregunta="
-                            getIdEquipo_Has_Pregunta(row.id, equipo.id)
-                          "
-                          :checked="
-                            isCheckedState1(row.id, equipo.id, equipo_estado)
-                          "
-                          @change="
-                            estado_equipo_has_pregunta(
+                          :id_equipo_has_pregunta="getIdEquipo_Has_Pregunta(row.id, equipo.id)"
+                          :checked="isCheckedState1(row.id, equipo.id, equipo_estado)"
+                          @change="estado_equipo_has_pregunta(
                               row.id,
                               equipo.id,
                               $event
@@ -535,7 +560,7 @@ th.sort {
                           <button
                             type="button"
                             class="btn btn-sm btn-alt-secondary"
-                            @click="eliminarPregunta(row.id)"
+                            @click="eliminarPregunta(row.id, 2)"
                           >
                             <i class="fa fa-fw fa-times"></i>
                           </button>
@@ -602,7 +627,7 @@ th.sort {
                           <button
                             type="button"
                             class="btn btn-sm btn-alt-secondary"
-                            @click="eliminarPregunta(row.id)"
+                            @click="eliminarPregunta(row.id, 3)"
                           >
                             <i class="fa fa-fw fa-times"></i>
                           </button>

@@ -29,7 +29,11 @@ watch(
 );
 function actualizarServicio() {
   axios
-    .put(rutaAPI + "servicios/" + props.dataServicio.id, editarServicio, token)
+    .put(
+      rutaAPI + "servicios/" + props.dataServicio.id,
+      { estado: editarServicio.estado },
+      token
+    )
     .then((response) => {
       if (response.data) {
         emit("updateServicio", response.data);
@@ -89,7 +93,7 @@ function nuevoServicio() {
 
           <template #content>
             <div class="block-content fs-sm">
-              <div class="form-group">
+              <div class="form-group" v-if="props.estado == 1">
                 <label for="modal-block-small-name">Nombre Servicio:</label>
                 <input
                   type="text"
@@ -100,7 +104,7 @@ function nuevoServicio() {
                   @input="editarServicio.nombre = $event.target.value"
                 />
               </div>
-              <div class="form-group">
+              <div class="form-group" v-if="props.estado == 1">
                 <label for="modal-block-small-precio">Precio: </label>
                 <input
                   type="text"

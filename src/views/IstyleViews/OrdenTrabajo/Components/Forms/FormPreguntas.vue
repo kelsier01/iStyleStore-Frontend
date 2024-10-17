@@ -1,4 +1,6 @@
 <script setup>
+import { watch, ref } from 'vue';
+
 const props = defineProps(["getPreguntas"]);
 const emit = defineEmits(["custom-change", "text-change"]);
 
@@ -9,6 +11,14 @@ function cargartextos(id) {
   let texto = document.getElementById(id).value;
   emit("text-change", { id, texto });
 }
+
+const nuevaPregunta = ref();
+
+watch(() => props.getPreguntas, (newPregunta) => {
+  nuevaPregunta.value = newPregunta || '';
+  console.log("Desde form", nuevaPregunta.value);
+}, { immediate: true });
+
 </script>
 
 <template>
