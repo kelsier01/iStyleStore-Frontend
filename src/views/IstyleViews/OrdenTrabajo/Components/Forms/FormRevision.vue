@@ -572,7 +572,7 @@ function abrirPDF(nameRoute) {
           <div class="card-body">
             <div class="row">
               <div class="col-md-3">
-                <label>SUBTOTAL:</label>
+                <label>BRUTO:</label>
                 <input
                   label="precio"
                   v-model="orden.stt"

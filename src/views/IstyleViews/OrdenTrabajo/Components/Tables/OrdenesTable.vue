@@ -32,7 +32,7 @@ const cargarDataTable = () => {
   axios
     .get(rutaAPI + "ordenes", token)
     .then((response) => {
-      console.log("Ordenes totaleeeeees: ",response.data);
+      console.log("Ordenes totales: ",response.data);
       ordenes.value = response.data.ordenes.reverse().map((orden) => {
         return {
           id: orden.id,

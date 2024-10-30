@@ -425,12 +425,12 @@ hr {
 .btnRojo {
   -webkit-print-color-adjust: exact;
   background-color: rgb(238, 75, 75);
-  color: #000;
+  color: #fff;
   border-radius: 40px !important;
   padding: 5px 15px; /* Ajusta el padding según tus necesidades */
   display: inline-block; /* Asegura que el botón se ajuste al tamaño del contenido */
   text-align: center;
-  width: 55px;
+  width: auto;
 }
 
 .brtl-30 {

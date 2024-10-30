@@ -78,6 +78,8 @@ onMounted(() => {
   });
 });
 
+const mostrarFormulario = ref(false);
+
 async function searchCliente() {
   if (!cliente.run) {
     Swal.fire({
@@ -91,6 +93,7 @@ async function searchCliente() {
   await axios
     .get(rutaAPI + "clientes/run/" + cliente.run, token)
     .then(function (response) {
+      mostrarFormulario.value = true;
       if (response.data) {
         cliente.nombre = response.data.nombre;
         cliente.mail = response.data.mail;
@@ -110,6 +113,7 @@ async function searchCliente() {
       cliente.mail = null;
       cliente.fono = null;
       cliente.existe = null;
+      mostrarFormulario.value = true;
     });
 }
 
@@ -303,7 +307,7 @@ async function addEquipooModelo() {
             />
           </div>
         </div>
-        <div class="row">
+        <div class="row" v-show="mostrarFormulario">
           <div class="col">
             <label class="label-control">Nombre: <span>*</span></label>
             <input
@@ -349,7 +353,7 @@ async function addEquipooModelo() {
             </div>
           </div>
         </div>
-        <div class="row">
+        <div class="row" v-show="mostrarFormulario">
           <div class="col">
             <label class="label-control">Equipo: <span>*</span></label>
             <div class="input-group">
@@ -416,17 +420,7 @@ async function addEquipooModelo() {
             />
           </div>
         </div>
-        <div class="row">
-          <!-- <div class="col">
-            <label class="label-control">Codigo:</label>
-            <input
-              label="codigo"
-              placeholder="codigo"
-              name="codigo"
-              class="form-control form-control-sm"
-              wfd-id="id11"
-            />
-          </div> -->
+        <div class="row" v-show="mostrarFormulario">
           <div class="col">
             <label class="label-control">IMEI o Serie:</label>
             <input
@@ -467,7 +461,7 @@ async function addEquipooModelo() {
         </div>
       </div>
     </BaseBlock>
-    <BaseBlock title="Estado del equipo">
+    <BaseBlock title="Estado del equipo" v-show="mostrarFormulario">
       <div class="">
         <div class="card-body row">
           <div class="col-10">

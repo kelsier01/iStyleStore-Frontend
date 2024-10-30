@@ -108,23 +108,13 @@ function filtrarOrdenes(estado) {
             </div>
           </template>
         </BaseBlock>
-        <!-- END Conversion Rate-->
       </div>
     </div>
-    <!-- END Overview -->
-
-    <!-- Statistics -->
-
-    <!-- END Statistics -->
-
-    <!-- Tabla de ordenes update -->
     <BaseBlock>
       <OrdenesTable />
     </BaseBlock>
-
   </div>
-  <!-- END Page Content -->
-</template>
+  </template>
 
 <style scoped>
 .pointer {

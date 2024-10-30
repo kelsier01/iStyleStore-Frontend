@@ -374,7 +374,7 @@ const getUltimaGarantia = (listaServicios) => {
                           </div>
                           <div class="col-8 d-flex justify-content-between">
                             <p>$</p>
-                            <p>{{ hayGarantia ? ultimaGarantia.subtotal : dataOrden.neto }}</p>
+                            <p>{{ hayGarantia ? ultimaGarantia.subtotal : dataOrden.neto - dataOrden.iva}}</p>
                           </div>
                         </div>
                         <div class="row tblrec">
