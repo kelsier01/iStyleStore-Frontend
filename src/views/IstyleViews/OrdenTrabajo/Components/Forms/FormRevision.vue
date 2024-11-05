@@ -80,13 +80,12 @@ watch(
   () => orden.value.subtotal,
   (subtotal, prevSubtotal) => {
     if (subtotal !== prevSubtotal) {
+      //VALOR TOTAL MENOS DESCUENTO
       orden.value.total = subtotal - orden.value.descuento;
-      orden.value.iva = Math.round(subtotal * 0.19);
-      orden.value.stt = Math.round(orden.value.subtotal * 0.81);
-      // getGarantia.value.total = orden.value.total;
-      // getGarantia.value.iva = Math.round(subtotal * 0.19);
-      // getGarantia.value.subtotal = subtotal;
-      console.log("stt", orden.value.stt);
+      //VALOR NETO: EL TOTAL DEL PRECIO SIN IVA
+      orden.value.stt = Math.round(subtotal/1.19);
+      //EL IVA ES LA DIFERENCIA ENTRE EL VALOR TOTAL Y EL NETO
+      orden.value.iva = Math.round(orden.value.total - orden.value.stt);
     }
   }
 );
@@ -250,6 +249,7 @@ function updateOrden(nuevo_estado) {
   axios
     .put(rutaAPI + "ordenes/" + orden.value.id, dataOrden.value, token)
     .then((response) => {
+      console.log("ORDEN ACTUALIZADA", response.data)
       Swal.fire({
         title: "Excelente!",
         text: "Datos almacenado correctamente!",
@@ -572,7 +572,7 @@ function abrirPDF(nameRoute) {
           <div class="card-body">
             <div class="row">
               <div class="col-md-3">
-                <label>BRUTO:</label>
+                <label>VALOR NETO:</label>
                 <input
                   label="precio"
                   v-model="orden.stt"

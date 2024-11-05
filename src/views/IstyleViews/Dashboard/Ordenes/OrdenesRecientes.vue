@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, computed, onMounted, ref, onBeforeMount } from "vue";
+import { reactive, computed, onMounted, ref, onBeforeMount, defineProps, watch } from "vue";
 import axios from "axios";
 import moment from "moment";
 import { useRouter } from "vue-router";
@@ -18,8 +18,8 @@ const router = useRouter();
 const ordenes = ref([]);
 const rutaAPI = import.meta.env.VITE_URL_API;
 const filtroSeleccionado = ref(3);
-// const router = useRouter();
 
+// const router = useRouter();
 const token = {
   headers: {
     "x-token": localStorage.getItem("Token"),
@@ -27,11 +27,23 @@ const token = {
 };
 // Variables tabla
 const getDatosFiltrados = ref();
+const estado_tabla_id = ref();
+
+//Props
+const props = defineProps(['estado_orden']);
+watch(() => props.estado_orden, (nuevoValor) => {
+  estado_tabla_id.value = nuevoValor;
+  console.log("Cambio en estado_orden:", estado_tabla_id.value);
+  filtrarOrdenes();
+});
+
+
 
 const cargarDataTable = () => {
   axios
     .get(rutaAPI + "ordenes/pendientes", token)
     .then((response) => {
+      console.log(response.data.ordenes);
       ordenes.value = response.data.ordenes.reverse().map((orden) => {
         return {
           id: orden.id,
@@ -43,6 +55,7 @@ const cargarDataTable = () => {
           fecha_ingreso: moment(orden.created_at).format("DD/MM/YYYY"),
           fecha_entrega: moment(orden.fecha_entrega).format("DD/MM/YYYY"),
           valor: orden.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."),
+          valor_recepcion: orden.total_recepcion.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
         };
       });
       getDatosFiltrados.value = ordenes.value;
@@ -161,49 +174,53 @@ const filtrarOrdenes = () => {
   console.log("Opcion seleccionada: ", filtroSeleccionado.value);
 
   if (getDatosFiltrados.value) {
+    const filtrarPorEstado = (orden) => {
+      return estado_tabla_id.value == null || orden.estado_orden_id == estado_tabla_id.value;
+    }
+
     if (filtroSeleccionado.value == 0) {
       console.log("Dentro de DIA");
-      getDatosFiltrados.value = ordenes.value;
       getDatosFiltrados.value = ordenes.value.filter((orden) => {
-        return orden.fecha_ingreso == getHoy;
+        return orden.fecha_ingreso == getHoy && filtrarPorEstado(orden);
       });
     } else if (filtroSeleccionado.value == 1) {
-      getDatosFiltrados.value = ordenes.value;
       const convertirFecha = (fecha) => {
         const [dia, mes, año] = fecha.split("/");
         return new Date(`${año}-${mes}-${dia}`);
       };
-      const semanaPasada = new Date();
-      semanaPasada.setDate(semanaPasada.getDate() - 7); // Ajustar según la semana anterior
 
+      const semanaPasadaDate = new Date();
+      semanaPasadaDate.setDate(semanaPasadaDate.getDate() - 7); // Ajustar según la semana anterior
       const hoy = convertirFecha(getHoy);
 
       getDatosFiltrados.value = ordenes.value.filter((orden) => {
         const fechaOrden = convertirFecha(orden.fecha_ingreso);
-        return fechaOrden >= semanaPasada && fechaOrden <= hoy;
+        return fechaOrden >= semanaPasadaDate && fechaOrden <= hoy && filtrarPorEstado(orden);
       });
     } else if (filtroSeleccionado.value == 2) {
       // Filtro para el último mes
-      getDatosFiltrados.value = ordenes.value;
       const convertirFecha = (fecha) => {
         const [dia, mes, año] = fecha.split("/");
         return new Date(`${año}-${mes}-${dia}`);
       };
 
-      const ultimoMes = new Date();
-      ultimoMes.setMonth(ultimoMes.getMonth() - 1); // Restar 1 mes
-
+      const ultimoMesDate = new Date();
+      ultimoMesDate.setMonth(ultimoMesDate.getMonth() - 1); // Restar 1 mes
       const hoy = convertirFecha(getHoy);
 
       getDatosFiltrados.value = ordenes.value.filter((orden) => {
         const fechaOrden = convertirFecha(orden.fecha_ingreso);
-        return fechaOrden >= ultimoMes && fechaOrden <= hoy;
+        return fechaOrden >= ultimoMesDate && fechaOrden <= hoy && filtrarPorEstado(orden);
       });
     } else if (filtroSeleccionado.value == 3) {
-      getDatosFiltrados.value = ordenes.value;
+      // Si no hay filtro de tiempo, solo filtra por estado
+      getDatosFiltrados.value = ordenes.value.filter(filtrarPorEstado);
     }
   }
+  console.log(getDatosFiltrados);
 };
+
+
 </script>
 
 <template>
@@ -250,7 +267,7 @@ const filtrarOrdenes = () => {
           <table class="table table-hover table-vcenter">
             <thead>
               <tr>
-                <th scope="col">N°</th>
+                <th scope="col">N° DE ORDEN</th>
                 <th
                   v-for="(th, index) in cols"
                   :key="th.field"
@@ -262,9 +279,9 @@ const filtrarOrdenes = () => {
               </tr>
             </thead>
             <DatasetItem tag="tbody" class="fs-sm">
-              <template #default="{ row, rowIndex }">
+              <template #default="{ row }">
                 <tr @click="verOrden(row.id)" class="pointer">
-                  <td scope="row">{{ rowIndex + 1 }}</td>
+                  <td scope="row">{{ row.id }}</td>
                   <td class="d-none d-xl-table-cell">
                     {{ row.cliente }}
                   </td>
@@ -301,7 +318,7 @@ const filtrarOrdenes = () => {
                     {{ row.fecha_entrega || "Sin fecha." }}
                   </td>
                   <td class="d-none d-sm-table-cell text-center">
-                    <strong> {{ row.valor }}</strong>
+                    <strong> {{ row.valor == 0 ? row.valor_recepcion : row.valor }}</strong>
                   </td>
                 </tr>
               </template>

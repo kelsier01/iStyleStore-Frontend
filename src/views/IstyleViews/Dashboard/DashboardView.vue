@@ -58,19 +58,11 @@ const getOrdenes = computed(() => {
   );
 });
 
-function filtrarOrdenes(estado) {
-  selectEstado.value = estado;
-}
+const estado_orden_id = ref();
 
-function SelectDFilter(dias) {
-  selectFecha.value = dias;
-}
-
-function verOrden(value) {
-  router.push({
-    name: "revision",
-    query: { idOrden: value },
-  });
+const estado_orden = (id) =>{
+  estado_orden_id.value = id; 
+  console.log(estado_orden_id.value)
 }
 </script>
 
@@ -114,7 +106,7 @@ function verOrden(value) {
             >
               <a
                 class="block-content block-content-full block-content-sm fs-sm fw-medium d-flex align-items-center justify-content-between pointer"
-                @click="filtrarOrdenes(1)"
+                @click="estado_orden(1)"
               >
                 <span>Ver Ordenes sin revisión</span>
                 <i
@@ -149,7 +141,7 @@ function verOrden(value) {
             >
               <a
                 class="block-content block-content-full block-content-sm fs-sm fw-medium d-flex align-items-center justify-content-between pointer"
-                @click="filtrarOrdenes(2)"
+                @click="estado_orden(2)"
               >
                 <span>Ver Ordenes en revisión</span>
                 <i
@@ -184,7 +176,7 @@ function verOrden(value) {
             >
               <a
                 class="block-content block-content-full block-content-sm fs-sm fw-medium d-flex align-items-center justify-content-between pointer"
-                @click="filtrarOrdenes(3)"
+                @click="estado_orden(3)"
               >
                 <span>Ver Ordenes para retiro</span>
                 <i
@@ -216,7 +208,7 @@ function verOrden(value) {
             <div class="bg-body-light rounded-bottom">
               <a
                 class="block-content block-content-full block-content-sm fs-sm fw-medium d-flex align-items-center justify-content-between pointer"
-                @click="filtrarOrdenes(null)"
+                @click="estado_orden(null)"
               >
                 <span>Ver Todas las ordenes</span>
                 <i
@@ -231,7 +223,7 @@ function verOrden(value) {
 
     <!-- Ordenes Recientes -->
     <BaseBlock title="Ordenes Recientes" content-full>
-      <OrdenesRecientes />
+      <OrdenesRecientes :estado_orden="estado_orden_id"/>
     </BaseBlock>
   </div>
 </template>
